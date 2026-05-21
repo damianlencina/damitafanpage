@@ -391,14 +391,150 @@
     color: var(--pop-black);
   }
 
-  .powers-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 30px;
-    max-width: 1200px;
-    margin: 0 auto;
+  .powers-inner {
     position: relative;
     z-index: 2;
+    display: grid;
+    grid-template-columns: minmax(300px, 400px) 1fr;
+    gap: 50px;
+    max-width: 1350px;
+    margin: 0 auto;
+    align-items: start;
+  }
+  .powers-avatar {
+    position: sticky;
+    top: 30px;
+    align-self: start;
+  }
+  .avatar-frame {
+    position: relative;
+    background: linear-gradient(180deg, #ffd000 0%, #ff6f00 100%);
+    border: 5px solid var(--pop-black);
+    box-shadow: 10px 10px 0 var(--pop-black);
+    padding: 16px 16px 12px;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .avatar-frame::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle, rgba(0,0,0,0.15) 1.5px, transparent 1.8px);
+    background-size: 14px 14px;
+    pointer-events: none;
+    mix-blend-mode: multiply;
+  }
+  .avatar-label {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 8px;
+    font-family: 'Bangers', cursive;
+    letter-spacing: 2px;
+    color: var(--pop-black);
+    font-size: 16px;
+  }
+  .avatar-label .state-tag {
+    background: var(--pop-black);
+    color: var(--pop-yellow-2);
+    padding: 4px 10px;
+    font-size: 14px;
+    letter-spacing: 1.5px;
+  }
+  .avatar-svg-wrap {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 400 / 820;
+  }
+  #damaAvatar {
+    width: 100%; height: 100%;
+    display: block;
+    filter: drop-shadow(6px 6px 0 rgba(0,0,0,0.4));
+    transition: transform 0.4s cubic-bezier(.34,1.56,.64,1);
+  }
+  /* Hover/active power state animations */
+  .avatar-svg-wrap .prop { opacity: 0; transition: opacity 0.25s ease; }
+  .avatar-svg-wrap .aura-base { animation: auraPulse 3s ease-in-out infinite; transform-origin: center; transform-box: fill-box; }
+  @keyframes auraPulse {
+    0%, 100% { transform: scale(1); opacity: 0.55; }
+    50% { transform: scale(1.08); opacity: 0.75; }
+  }
+  .avatar-svg-wrap[data-state="0"] .aura-base { opacity: 0.55; }
+  .avatar-svg-wrap[data-state="1"] .prop-1 { opacity: 1; }
+  .avatar-svg-wrap[data-state="2"] .prop-2 { opacity: 1; }
+  .avatar-svg-wrap[data-state="2"] #damaAvatar { animation: shakeIt 0.3s linear infinite; }
+  @keyframes shakeIt {
+    0%, 100% { transform: translate(0, 0); }
+    25% { transform: translate(-2px, 1px) rotate(-0.5deg); }
+    50% { transform: translate(2px, -1px); }
+    75% { transform: translate(-1px, 2px) rotate(0.5deg); }
+  }
+  .avatar-svg-wrap[data-state="3"] .prop-3 { opacity: 1; }
+  .avatar-svg-wrap[data-state="3"] .flames path { animation: flameDance 0.6s ease-in-out infinite alternate; transform-origin: center bottom; transform-box: fill-box; }
+  @keyframes flameDance {
+    0% { transform: scale(1, 1) translateY(0); }
+    100% { transform: scale(1.1, 1.15) translateY(-3px); }
+  }
+  .avatar-svg-wrap[data-state="4"] .prop-4 { opacity: 1; }
+  .avatar-svg-wrap[data-state="4"] .prop-4 circle { animation: hypno 1.8s linear infinite; transform-origin: center; transform-box: fill-box; }
+  @keyframes hypno {
+    0% { transform: scale(1) rotate(0deg); opacity: 1; }
+    100% { transform: scale(1.6) rotate(360deg); opacity: 0; }
+  }
+  .avatar-svg-wrap[data-state="5"] .prop-5 { opacity: 1; }
+  .avatar-svg-wrap[data-state="5"] .heart-fly { animation: floatHeart 2.4s ease-in-out infinite; }
+  .avatar-svg-wrap[data-state="5"] .heart-fly.h2 { animation-delay: -0.5s; }
+  .avatar-svg-wrap[data-state="5"] .heart-fly.h3 { animation-delay: -1s; }
+  .avatar-svg-wrap[data-state="5"] .heart-fly.h4 { animation-delay: -1.4s; }
+  .avatar-svg-wrap[data-state="5"] .heart-fly.h5 { animation-delay: -1.8s; }
+  @keyframes floatHeart {
+    0% { transform: translateY(0); opacity: 1; }
+    50% { opacity: 1; }
+    100% { transform: translateY(-30px); opacity: 0; }
+  }
+  .avatar-svg-wrap[data-state="6"] .prop-6 { opacity: 1; }
+  .avatar-svg-wrap[data-state="6"] .butterfly { animation: flutter 2s ease-in-out infinite; transform-origin: center; transform-box: fill-box; }
+  .avatar-svg-wrap[data-state="6"] .butterfly.b2 { animation-delay: -0.5s; }
+  .avatar-svg-wrap[data-state="6"] .butterfly.b3 { animation-delay: -1s; }
+  .avatar-svg-wrap[data-state="6"] .butterfly.b4 { animation-delay: -1.5s; }
+  @keyframes flutter {
+    0%, 100% { transform: translateY(0) scale(1, 1); }
+    25% { transform: translateY(-15px) scale(1, 0.6); }
+    50% { transform: translateY(-22px) scale(1, 1); }
+    75% { transform: translateY(-10px) scale(1, 0.6); }
+  }
+  .avatar-svg-wrap[data-state="7"] .prop-7 { opacity: 1; }
+  .avatar-svg-wrap[data-state="7"] .eyes { opacity: 0.15; }
+  .avatar-svg-wrap[data-state="8"] .prop-8 { opacity: 1; }
+  .avatar-svg-wrap[data-state="9"] .prop-9 { opacity: 1; }
+  .avatar-svg-wrap[data-state="9"] .crown { animation: crownFloat 2s ease-in-out infinite; transform-origin: center bottom; transform-box: fill-box; }
+  @keyframes crownFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-3px); }
+  }
+  .avatar-svg-wrap[data-state="1"] .bolts polygon,
+  .avatar-svg-wrap[data-state="2"] circle,
+  .avatar-svg-wrap[data-state="3"] .flames path,
+  .avatar-svg-wrap[data-state="5"] .heart-fly,
+  .avatar-svg-wrap[data-state="6"] .butterfly {
+    pointer-events: none;
+  }
+  .avatar-svg-wrap[data-state="1"] .prop-1 polygon {
+    animation: zap 0.35s linear infinite;
+    transform-origin: center; transform-box: fill-box;
+  }
+  @keyframes zap {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(1.15); }
+  }
+
+  .powers-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 22px;
   }
   .power-card {
     position: relative;
@@ -699,6 +835,9 @@
     .speech-bubble b { font-size: 22px; }
     .portrait-sticker { font-size: 14px; padding: 4px 10px; }
 
+    .powers-inner { grid-template-columns: 1fr; gap: 30px; }
+    .powers-avatar { position: relative; top: 0; max-width: 360px; margin: 0 auto; width: 100%; }
+
     /* Collage simplificado en mobile */
     .collage { grid-template-columns: repeat(6, 1fr); grid-auto-rows: 46px; }
     .p1  { grid-column: 1 / span 6;  grid-row: 1 / span 5; transform: rotate(-2deg); }
@@ -817,72 +956,414 @@
   <div class="section-header">
     <span class="section-eyebrow">★ DOSSIER CLASIFICADO ★</span>
     <h2 class="section-title">SUPERPODERES</h2>
-    <p class="section-subtitle">— Reporte oficial de mis observaciones científicas en campo —</p>
+    <p class="section-subtitle">— Pasá el mouse por un poder y miralo en acción —</p>
   </div>
 
-  <div class="powers-grid" id="powersGrid">
-    <div class="power-card" data-delay="0">
+  <div class="powers-inner">
+    <aside class="powers-avatar" aria-label="Avatar de Dama">
+      <div class="avatar-frame">
+        <div class="avatar-label">
+          <span>★ DAMA · MODO HEROÍNA ★</span>
+          <span class="state-tag" id="stateTag">IDLE</span>
+        </div>
+        <div class="avatar-svg-wrap" id="avatarWrap" data-state="0"><svg id="damaAvatar" viewBox="0 0 400 820" xmlns="http://www.w3.org/2000/svg" aria-label="Avatar figura de acción de Dama">
+  <defs>
+    <linearGradient id="hairRed" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0%" stop-color="#c8341a"/>
+      <stop offset="50%" stop-color="#8e1f0c"/>
+      <stop offset="100%" stop-color="#4a0f06"/>
+    </linearGradient>
+    <linearGradient id="bangRed" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0%" stop-color="#a82812"/>
+      <stop offset="100%" stop-color="#5e120a"/>
+    </linearGradient>
+    <linearGradient id="leather" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0%" stop-color="#2a2a2a"/>
+      <stop offset="60%" stop-color="#0d0d0d"/>
+      <stop offset="100%" stop-color="#000000"/>
+    </linearGradient>
+    <linearGradient id="skin" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0%" stop-color="#ffd8b8"/>
+      <stop offset="100%" stop-color="#e8b890"/>
+    </linearGradient>
+    <linearGradient id="lipsLG" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0%" stop-color="#ff1744"/>
+      <stop offset="100%" stop-color="#a8001f"/>
+    </linearGradient>
+    <radialGradient id="auraGrad" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0%" stop-color="#ffd000" stop-opacity="0.8"/>
+      <stop offset="60%" stop-color="#ff6f00" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#ff2d55" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="dotPat" x="0" y="0" width="12" height="12" patternUnits="userSpaceOnUse">
+      <circle cx="6" cy="6" r="2.4" fill="#ff2d55"/>
+    </pattern>
+    <filter id="glowGold" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="glowPink" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feFlood flood-color="#ff1493" result="color"/>
+      <feComposite in="color" in2="blur" operator="in" result="glow"/>
+      <feMerge><feMergeNode in="glow"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- AURA principal (por debajo de todo) -->
+  <g class="aura-main">
+    <ellipse class="aura-base" cx="200" cy="410" rx="180" ry="380" fill="url(#auraGrad)" opacity="0.55"/>
+  </g>
+
+  <!-- AURAS de color por estado (background tints, detrás de la figura) -->
+  <g class="prop prop-3" aria-hidden="true">
+    <ellipse cx="200" cy="410" rx="220" ry="420" fill="#ff6f00" opacity="0.45"/>
+  </g>
+  <g class="prop prop-5" aria-hidden="true">
+    <ellipse cx="200" cy="410" rx="220" ry="420" fill="#ff1493" opacity="0.35"/>
+  </g>
+  <g class="prop prop-9" aria-hidden="true">
+    <ellipse cx="200" cy="410" rx="240" ry="430" fill="#ffd000" opacity="0.55"/>
+  </g>
+  <g class="prop prop-6" aria-hidden="true">
+    <ellipse cx="200" cy="410" rx="220" ry="420" fill="#00d4ff" opacity="0.25"/>
+  </g>
+
+  <!-- Sombra al piso -->
+  <ellipse cx="200" cy="790" rx="120" ry="12" fill="#0a0a0a" opacity="0.35"/>
+
+  <!-- ============= FIGURA ============= -->
+  <g class="figure">
+    <!-- PIERNAS (parte trasera del pelo va detrás) -->
+    <!-- Pierna izquierda -->
+    <path d="M165 480 Q150 600 145 720 L172 720 Q180 600 185 480 Z" fill="url(#skin)" stroke="#0a0a0a" stroke-width="4" stroke-linejoin="round"/>
+    <!-- Pierna derecha -->
+    <path d="M235 480 Q250 600 255 720 L228 720 Q220 600 215 480 Z" fill="url(#skin)" stroke="#0a0a0a" stroke-width="4" stroke-linejoin="round"/>
+
+    <!-- Botas largas hasta media pierna -->
+    <path d="M138 630 Q140 690 150 740 L175 740 Q180 690 178 630 Z" fill="url(#leather)" stroke="#0a0a0a" stroke-width="4" stroke-linejoin="round"/>
+    <path d="M262 630 Q260 690 250 740 L225 740 Q220 690 222 630 Z" fill="url(#leather)" stroke="#0a0a0a" stroke-width="4" stroke-linejoin="round"/>
+    <!-- Detalle botas (hebillas) -->
+    <rect x="143" y="655" width="32" height="4" fill="#ffd700" stroke="#0a0a0a" stroke-width="1.5"/>
+    <rect x="225" y="655" width="32" height="4" fill="#ffd700" stroke="#0a0a0a" stroke-width="1.5"/>
+    <!-- Suelas -->
+    <ellipse cx="160" cy="743" rx="22" ry="6" fill="#0a0a0a"/>
+    <ellipse cx="240" cy="743" rx="22" ry="6" fill="#0a0a0a"/>
+
+    <!-- FALDA / SHORT de cuero -->
+    <path d="M155 440 L245 440 Q255 480 260 510 L140 510 Q145 480 155 440 Z" fill="url(#leather)" stroke="#0a0a0a" stroke-width="4" stroke-linejoin="round"/>
+    <!-- Detalle cinturón -->
+    <rect x="148" y="438" width="104" height="14" fill="#0a0a0a" stroke="#0a0a0a" stroke-width="2"/>
+    <circle cx="200" cy="445" r="5" fill="#ffd700" stroke="#0a0a0a" stroke-width="1.5"/>
+
+    <!-- TORSO (piel debajo de chaqueta abierta - crop top) -->
+    <path d="M160 240 Q150 350 155 445 L245 445 Q250 350 240 240 Z" fill="url(#skin)" stroke="#0a0a0a" stroke-width="4" stroke-linejoin="round"/>
+    <!-- Crop top negro -->
+    <path d="M160 240 Q156 280 158 310 L242 310 Q244 280 240 240 Z" fill="#0a0a0a" stroke="#0a0a0a" stroke-width="3"/>
+    <!-- Detalle crop top neck -->
+    <path d="M178 240 Q200 250 222 240" stroke="#ffffff" stroke-width="2" fill="none" opacity="0.4"/>
+
+    <!-- CHAQUETA DE CUERO (abierta, mostrando crop top) -->
+    <path d="M155 240 L130 280 Q120 360 138 445 L160 445 Q150 360 158 290 Z" fill="url(#leather)" stroke="#0a0a0a" stroke-width="4" stroke-linejoin="round"/>
+    <path d="M245 240 L270 280 Q280 360 262 445 L240 445 Q250 360 242 290 Z" fill="url(#leather)" stroke="#0a0a0a" stroke-width="4" stroke-linejoin="round"/>
+    <!-- Solapas de la chaqueta -->
+    <path d="M158 245 L172 280 L160 320" stroke="#3a3a3a" stroke-width="2" fill="none"/>
+    <path d="M242 245 L228 280 L240 320" stroke="#3a3a3a" stroke-width="2" fill="none"/>
+    <!-- Cierre/Zipper detalles -->
+    <circle cx="148" cy="350" r="2.5" fill="#ffd700"/>
+    <circle cx="252" cy="350" r="2.5" fill="#ffd700"/>
+
+    <!-- BRAZOS en jarra (manos en cintura) -->
+    <!-- Brazo izquierdo: hombro 130/240 -> codo afuera -> mano en cintura -->
+    <!-- Upper arm -->
+    <path d="M135 245 Q105 285 95 345" stroke="url(#leather)" stroke-width="32" fill="none" stroke-linecap="round"/>
+    <path d="M135 245 Q105 285 95 345" stroke="#0a0a0a" stroke-width="4" fill="none" stroke-linecap="round"/>
+    <!-- Forearm hacia adentro (cintura) -->
+    <path d="M95 345 Q115 400 158 425" stroke="url(#skin)" stroke-width="22" fill="none" stroke-linecap="round"/>
+    <path d="M95 345 Q115 400 158 425" stroke="#0a0a0a" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+    <!-- Mano izquierda -->
+    <ellipse cx="160" cy="430" rx="14" ry="10" fill="url(#skin)" stroke="#0a0a0a" stroke-width="3"/>
+
+    <!-- Brazo derecho simétrico -->
+    <path d="M265 245 Q295 285 305 345" stroke="url(#leather)" stroke-width="32" fill="none" stroke-linecap="round"/>
+    <path d="M265 245 Q295 285 305 345" stroke="#0a0a0a" stroke-width="4" fill="none" stroke-linecap="round"/>
+    <path d="M305 345 Q285 400 242 425" stroke="url(#skin)" stroke-width="22" fill="none" stroke-linecap="round"/>
+    <path d="M305 345 Q285 400 242 425" stroke="#0a0a0a" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+    <ellipse cx="240" cy="430" rx="14" ry="10" fill="url(#skin)" stroke="#0a0a0a" stroke-width="3"/>
+
+    <!-- COOKIE (en mano derecha cuando estado 8) -->
+    <g class="prop prop-8" aria-hidden="true">
+      <circle cx="240" cy="430" r="22" fill="#c08850" stroke="#0a0a0a" stroke-width="3"/>
+      <circle cx="232" cy="424" r="3.5" fill="#3a1a08"/>
+      <circle cx="246" cy="426" r="3.5" fill="#3a1a08"/>
+      <circle cx="238" cy="436" r="3.5" fill="#3a1a08"/>
+      <circle cx="248" cy="440" r="3.5" fill="#3a1a08"/>
+      <circle cx="228" cy="436" r="3.5" fill="#3a1a08"/>
+    </g>
+
+    <!-- CUELLO -->
+    <rect x="183" y="195" width="34" height="40" fill="url(#skin)" stroke="#0a0a0a" stroke-width="3.5"/>
+
+    <!-- CHOKER negro (signature) -->
+    <rect x="178" y="218" width="44" height="11" fill="#0a0a0a" stroke="#0a0a0a" stroke-width="2"/>
+    <circle cx="200" cy="232" r="5" fill="#d4d4d4" stroke="#0a0a0a" stroke-width="1.8"/>
+
+    <!-- PELO TRASERO (cae largo por los hombros y abajo) -->
+    <path d="M140 130 Q110 220 115 340 Q125 450 145 470 L155 470 Q140 380 145 260 Q150 180 165 130 Z" fill="url(#hairRed)" stroke="#0a0a0a" stroke-width="4" stroke-linejoin="round"/>
+    <path d="M260 130 Q290 220 285 340 Q275 450 255 470 L245 470 Q260 380 255 260 Q250 180 235 130 Z" fill="url(#hairRed)" stroke="#0a0a0a" stroke-width="4" stroke-linejoin="round"/>
+    <!-- Mechones brillo -->
+    <path d="M125 200 Q125 320 140 440" stroke="#d04020" stroke-width="2.5" fill="none" opacity="0.7"/>
+    <path d="M275 200 Q275 320 260 440" stroke="#d04020" stroke-width="2.5" fill="none" opacity="0.7"/>
+
+    <!-- CARA -->
+    <path d="M158 120 Q152 200 200 232 Q248 200 242 120 Q240 75 200 70 Q160 75 158 120 Z" fill="url(#skin)" stroke="#0a0a0a" stroke-width="3.5" stroke-linejoin="round"/>
+
+    <!-- PELO SUPERIOR (cabeza) -->
+    <path d="M148 105 Q140 50 200 38 Q260 50 252 105 Q244 75 200 72 Q156 75 148 105 Z" fill="url(#hairRed)" stroke="#0a0a0a" stroke-width="4" stroke-linejoin="round"/>
+
+    <!-- FLEQUILLO recto (signature) -->
+    <path d="M160 95 Q170 75 200 73 Q230 75 240 95 Q238 122 220 128 Q200 130 180 128 Q162 122 160 95 Z" fill="url(#bangRed)" stroke="#0a0a0a" stroke-width="3.5" stroke-linejoin="round"/>
+    <!-- Líneas del flequillo -->
+    <path d="M170 110 L168 125 M180 115 L180 127 M192 117 L192 128 M208 117 L208 128 M220 115 L220 127 M230 110 L232 125"
+          stroke="#0a0a0a" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.6"/>
+
+    <!-- Cejas -->
+    <path d="M170 130 Q180 124 192 128" stroke="#0a0a0a" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+    <path d="M208 128 Q220 124 230 130" stroke="#0a0a0a" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+
+    <!-- OJOS (siempre visibles, los efectos los modifican) -->
+    <g class="eyes">
+      <!-- Ojo izquierdo -->
+      <g class="eye eye-l">
+        <ellipse cx="180" cy="148" rx="11" ry="8" fill="#ffffff" stroke="#0a0a0a" stroke-width="2"/>
+        <ellipse cx="180" cy="148" rx="5.5" ry="6.5" fill="#5a3018" class="iris"/>
+        <circle cx="180" cy="148" r="2.5" fill="#0a0a0a"/>
+        <circle cx="182" cy="146" r="1.5" fill="#ffffff"/>
+      </g>
+      <!-- Ojo derecho -->
+      <g class="eye eye-r">
+        <ellipse cx="220" cy="148" rx="11" ry="8" fill="#ffffff" stroke="#0a0a0a" stroke-width="2"/>
+        <ellipse cx="220" cy="148" rx="5.5" ry="6.5" fill="#5a3018" class="iris"/>
+        <circle cx="220" cy="148" r="2.5" fill="#0a0a0a"/>
+        <circle cx="222" cy="146" r="1.5" fill="#ffffff"/>
+      </g>
+    </g>
+
+    <!-- TARGET en los ojos (estado 7) -->
+    <g class="prop prop-7" aria-hidden="true">
+      <g class="target-eye" transform="translate(180 148)">
+        <circle r="8" fill="none" stroke="#ff2d55" stroke-width="2"/>
+        <circle r="5" fill="none" stroke="#ff2d55" stroke-width="2"/>
+        <circle r="2" fill="#ff2d55"/>
+        <line x1="-10" y1="0" x2="10" y2="0" stroke="#ff2d55" stroke-width="1.5"/>
+        <line x1="0" y1="-10" x2="0" y2="10" stroke="#ff2d55" stroke-width="1.5"/>
+      </g>
+      <g class="target-eye" transform="translate(220 148)">
+        <circle r="8" fill="none" stroke="#ff2d55" stroke-width="2"/>
+        <circle r="5" fill="none" stroke="#ff2d55" stroke-width="2"/>
+        <circle r="2" fill="#ff2d55"/>
+        <line x1="-10" y1="0" x2="10" y2="0" stroke="#ff2d55" stroke-width="1.5"/>
+        <line x1="0" y1="-10" x2="0" y2="10" stroke="#ff2d55" stroke-width="1.5"/>
+      </g>
+    </g>
+
+    <!-- ESPIRAL HIPNÓTICA en ojos (estado 4) -->
+    <g class="prop prop-4" aria-hidden="true">
+      <circle cx="180" cy="148" r="9" fill="none" stroke="#00d4ff" stroke-width="1.5"/>
+      <circle cx="180" cy="148" r="6" fill="none" stroke="#ff1493" stroke-width="1.5"/>
+      <circle cx="180" cy="148" r="3" fill="none" stroke="#fff200" stroke-width="1.5"/>
+      <circle cx="220" cy="148" r="9" fill="none" stroke="#00d4ff" stroke-width="1.5"/>
+      <circle cx="220" cy="148" r="6" fill="none" stroke="#ff1493" stroke-width="1.5"/>
+      <circle cx="220" cy="148" r="3" fill="none" stroke="#fff200" stroke-width="1.5"/>
+    </g>
+
+    <!-- DESTELLOS en ojos (estado 1: belleza letal) -->
+    <g class="prop prop-1" aria-hidden="true">
+      <polygon points="178,140 180,144 184,144 181,147 182,152 180,149 178,152 179,147 176,144 180,144" fill="#fff200" stroke="#0a0a0a" stroke-width="0.8"/>
+      <polygon points="218,140 220,144 224,144 221,147 222,152 220,149 218,152 219,147 216,144 220,144" fill="#fff200" stroke="#0a0a0a" stroke-width="0.8"/>
+    </g>
+
+    <!-- NARIZ -->
+    <path d="M198 158 Q193 178 200 188 Q207 178 202 158" stroke="#b08560" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <ellipse cx="197" cy="187" rx="1.6" ry="1" fill="#0a0a0a"/>
+    <ellipse cx="203" cy="187" rx="1.6" ry="1" fill="#0a0a0a"/>
+
+    <!-- LABIOS -->
+    <path d="M188 198 Q200 192 212 198 Q205 206 200 206 Q195 206 188 198 Z" fill="url(#lipsLG)" stroke="#0a0a0a" stroke-width="2.2" stroke-linejoin="round"/>
+    <path d="M188 198 Q200 204 212 198" stroke="#0a0a0a" stroke-width="1.5" fill="none"/>
+
+    <!-- Aros / pendientes -->
+    <circle cx="156" cy="170" r="6" fill="none" stroke="#ffd700" stroke-width="2.5"/>
+    <circle cx="244" cy="170" r="6" fill="none" stroke="#ffd700" stroke-width="2.5"/>
+
+    <!-- CORONA (estado 9: aura de reina) -->
+    <g class="prop prop-9 crown" aria-hidden="true">
+      <path d="M150 50 L165 25 L180 50 L200 18 L220 50 L235 25 L250 50 L250 65 L150 65 Z"
+            fill="#ffd700" stroke="#0a0a0a" stroke-width="3" stroke-linejoin="round"/>
+      <circle cx="165" cy="35" r="3" fill="#ff2d55" stroke="#0a0a0a" stroke-width="1"/>
+      <circle cx="200" cy="28" r="4" fill="#00d4ff" stroke="#0a0a0a" stroke-width="1"/>
+      <circle cx="235" cy="35" r="3" fill="#ff2d55" stroke="#0a0a0a" stroke-width="1"/>
+      <rect x="150" y="55" width="100" height="6" fill="#ffd700" stroke="#0a0a0a" stroke-width="2"/>
+    </g>
+  </g>
+
+  <!-- ============= EFECTOS VFX (encima de la figura, alrededor) ============= -->
+  <!-- Rayos eléctricos (estado 1) -->
+  <g class="prop prop-1 fx-bolts" aria-hidden="true">
+    <polygon points="55,200 105,210 80,260 120,265 60,360 95,300 65,295" fill="#fff200" stroke="#0a0a0a" stroke-width="4" stroke-linejoin="round"/>
+    <polygon points="345,280 295,290 320,340 280,345 340,440 305,380 335,375" fill="#fff200" stroke="#0a0a0a" stroke-width="4" stroke-linejoin="round"/>
+    <polygon points="40,440 90,450 65,500 105,505 45,600 80,540 50,535" fill="#fff200" stroke="#0a0a0a" stroke-width="4" stroke-linejoin="round"/>
+    <polygon points="360,500 310,510 335,560 295,565 355,660 320,600 350,595" fill="#fff200" stroke="#0a0a0a" stroke-width="4" stroke-linejoin="round"/>
+  </g>
+
+  <!-- Ondas sísmicas concéntricas (estado 2) -->
+  <g class="prop prop-2 fx-waves" aria-hidden="true">
+    <circle class="wave w1" cx="200" cy="780" r="120" fill="none" stroke="#ff2d55" stroke-width="5" opacity="0.7"/>
+    <circle class="wave w2" cx="200" cy="780" r="180" fill="none" stroke="#ffd000" stroke-width="5" opacity="0.55"/>
+    <circle class="wave w3" cx="200" cy="780" r="240" fill="none" stroke="#ff2d55" stroke-width="4" opacity="0.4"/>
+    <!-- Texto BOOM! -->
+    <g transform="translate(70 150) rotate(-12)">
+      <polygon points="0,0 30,-10 80,0 60,30 80,55 30,45 0,60 10,30" fill="#ffd000" stroke="#0a0a0a" stroke-width="4" stroke-linejoin="round"/>
+      <text x="40" y="35" text-anchor="middle" font-family="'Bangers', cursive" font-size="26" fill="#0a0a0a">BOOM!</text>
+    </g>
+  </g>
+
+  <!-- Llamas y partículas de fuego (estado 3) -->
+  <g class="prop prop-3 fx-fire" aria-hidden="true">
+    <!-- Llamas a los lados de la figura -->
+    <g class="flames">
+      <path d="M70 720 Q40 600 70 480 Q85 550 100 500 Q110 580 130 540 Q135 620 110 720 Z" fill="#ff6f00" stroke="#0a0a0a" stroke-width="3" stroke-linejoin="round"/>
+      <path d="M80 720 Q60 620 85 520 Q95 570 110 540 Q120 600 105 720 Z" fill="#ffd000"/>
+      <path d="M330 720 Q360 600 330 480 Q315 550 300 500 Q290 580 270 540 Q265 620 290 720 Z" fill="#ff6f00" stroke="#0a0a0a" stroke-width="3" stroke-linejoin="round"/>
+      <path d="M320 720 Q340 620 315 520 Q305 570 290 540 Q280 600 295 720 Z" fill="#ffd000"/>
+    </g>
+    <!-- Chispitas -->
+    <circle cx="100" cy="380" r="6" fill="#ff2d55" stroke="#0a0a0a" stroke-width="2"/>
+    <circle cx="320" cy="350" r="5" fill="#fff200" stroke="#0a0a0a" stroke-width="2"/>
+    <circle cx="90" cy="280" r="4" fill="#ff6f00" stroke="#0a0a0a" stroke-width="2"/>
+  </g>
+
+  <!-- Corazones flotando (estado 5) -->
+  <g class="prop prop-5 fx-hearts" aria-hidden="true">
+    <g class="heart-fly h1"><path transform="translate(70 600) scale(0.85)" d="M0 0 C-12 -12 -28 -6 -28 8 C-28 22 0 36 0 36 C0 36 28 22 28 8 C28 -6 12 -12 0 0 Z" fill="#ff1493" stroke="#0a0a0a" stroke-width="3"/></g>
+    <g class="heart-fly h2"><path transform="translate(330 580) scale(0.7)" d="M0 0 C-12 -12 -28 -6 -28 8 C-28 22 0 36 0 36 C0 36 28 22 28 8 C28 -6 12 -12 0 0 Z" fill="#ff5577" stroke="#0a0a0a" stroke-width="3"/></g>
+    <g class="heart-fly h3"><path transform="translate(60 700) scale(0.6)" d="M0 0 C-12 -12 -28 -6 -28 8 C-28 22 0 36 0 36 C0 36 28 22 28 8 C28 -6 12 -12 0 0 Z" fill="#ff1493" stroke="#0a0a0a" stroke-width="3"/></g>
+    <g class="heart-fly h4"><path transform="translate(340 720) scale(0.9)" d="M0 0 C-12 -12 -28 -6 -28 8 C-28 22 0 36 0 36 C0 36 28 22 28 8 C28 -6 12 -12 0 0 Z" fill="#ff5577" stroke="#0a0a0a" stroke-width="3"/></g>
+    <g class="heart-fly h5"><path transform="translate(200 110) scale(0.5)" d="M0 0 C-12 -12 -28 -6 -28 8 C-28 22 0 36 0 36 C0 36 28 22 28 8 C28 -6 12 -12 0 0 Z" fill="#ff1493" stroke="#0a0a0a" stroke-width="3"/></g>
+  </g>
+
+  <!-- Mariposas (estado 6) -->
+  <g class="prop prop-6 fx-butterflies" aria-hidden="true">
+    <g class="butterfly b1"><g transform="translate(70 250)">
+      <ellipse cx="-13" cy="0" rx="14" ry="18" fill="#ff1493" stroke="#0a0a0a" stroke-width="2.5"/>
+      <ellipse cx="13" cy="0" rx="14" ry="18" fill="#ff1493" stroke="#0a0a0a" stroke-width="2.5"/>
+      <circle cx="-13" cy="-3" r="3" fill="#fff" opacity="0.5"/>
+      <circle cx="13" cy="-3" r="3" fill="#fff" opacity="0.5"/>
+      <line x1="0" y1="-14" x2="0" y2="14" stroke="#0a0a0a" stroke-width="3"/>
+    </g></g>
+    <g class="butterfly b2"><g transform="translate(330 320)">
+      <ellipse cx="-13" cy="0" rx="14" ry="18" fill="#00d4ff" stroke="#0a0a0a" stroke-width="2.5"/>
+      <ellipse cx="13" cy="0" rx="14" ry="18" fill="#00d4ff" stroke="#0a0a0a" stroke-width="2.5"/>
+      <circle cx="-13" cy="-3" r="3" fill="#fff" opacity="0.5"/>
+      <circle cx="13" cy="-3" r="3" fill="#fff" opacity="0.5"/>
+      <line x1="0" y1="-14" x2="0" y2="14" stroke="#0a0a0a" stroke-width="3"/>
+    </g></g>
+    <g class="butterfly b3"><g transform="translate(60 480)">
+      <ellipse cx="-13" cy="0" rx="14" ry="18" fill="#ffd000" stroke="#0a0a0a" stroke-width="2.5"/>
+      <ellipse cx="13" cy="0" rx="14" ry="18" fill="#ffd000" stroke="#0a0a0a" stroke-width="2.5"/>
+      <circle cx="-13" cy="-3" r="3" fill="#fff" opacity="0.5"/>
+      <circle cx="13" cy="-3" r="3" fill="#fff" opacity="0.5"/>
+      <line x1="0" y1="-14" x2="0" y2="14" stroke="#0a0a0a" stroke-width="3"/>
+    </g></g>
+    <g class="butterfly b4"><g transform="translate(340 560)">
+      <ellipse cx="-13" cy="0" rx="14" ry="18" fill="#ff1493" stroke="#0a0a0a" stroke-width="2.5"/>
+      <ellipse cx="13" cy="0" rx="14" ry="18" fill="#ff1493" stroke="#0a0a0a" stroke-width="2.5"/>
+      <circle cx="-13" cy="-3" r="3" fill="#fff" opacity="0.5"/>
+      <circle cx="13" cy="-3" r="3" fill="#fff" opacity="0.5"/>
+      <line x1="0" y1="-14" x2="0" y2="14" stroke="#0a0a0a" stroke-width="3"/>
+    </g></g>
+  </g>
+
+  <!-- Halftone overlay dots dorados (estado 9: reina) -->
+  <g class="prop prop-9 fx-gold-dots" aria-hidden="true">
+    <circle cx="200" cy="410" r="220" fill="url(#dotPat)" opacity="0.25" pointer-events="none"/>
+  </g>
+
+  <!-- Speech bubble que aparece por estado -->
+  <g class="prop-bubble" id="propBubble" style="opacity:0">
+    <g transform="translate(330 130)">
+      <ellipse cx="0" cy="0" rx="60" ry="34" fill="#fff200" stroke="#0a0a0a" stroke-width="4"/>
+      <text x="0" y="6" text-anchor="middle" font-family="'Bangers', cursive" font-size="22" fill="#0a0a0a" id="propBubbleText">DAMA!</text>
+    </g>
+  </g>
+</svg></div>
+      </div>
+    </aside>
+
+    <div class="powers-grid" id="powersGrid">
+    <div class="power-card" data-delay="0" data-power="1" data-bubble="ZAP!">
       <span class="corner-tag">#01</span>
       <div class="power-emoji">⚡</div>
       <h3 class="power-name">Belleza Letal</h3>
       <p class="power-desc">Convierte miradas en arena con un solo pestañeo. Las autoridades aún investigan cómo es legal.</p>
       <div class="power-stat"><span>NIVEL</span><span class="bar"><i style="--lvl:99%"></i></span><span>99</span></div>
     </div>
-    <div class="power-card" data-delay="80">
+    <div class="power-card" data-delay="80" data-power="2" data-bubble="HAHA!">
       <span class="corner-tag">#02</span>
       <div class="power-emoji">😈</div>
       <h3 class="power-name">Risa Sísmica</h3>
       <p class="power-desc">Su carcajada registra 7.8 en la escala de Richter de mi corazón. Estabiliza ecosistemas enteros.</p>
       <div class="power-stat"><span>NIVEL</span><span class="bar"><i style="--lvl:96%"></i></span><span>96</span></div>
     </div>
-    <div class="power-card" data-delay="160">
+    <div class="power-card" data-delay="160" data-power="3" data-bubble="FIRE!">
       <span class="corner-tag">#03</span>
       <div class="power-emoji">🔥</div>
       <h3 class="power-name">Sonrisa Atómica</h3>
       <p class="power-desc">Capaz de derretir glaciares y mi voluntad simultáneamente. Greenpeace nos vigila.</p>
       <div class="power-stat"><span>NIVEL</span><span class="bar"><i style="--lvl:100%"></i></span><span>100</span></div>
     </div>
-    <div class="power-card" data-delay="240">
+    <div class="power-card" data-delay="240" data-power="4" data-bubble="WOW...">
       <span class="corner-tag">#04</span>
       <div class="power-emoji">✨</div>
       <h3 class="power-name">Mirada Hipnótica</h3>
       <p class="power-desc">Te abduce sin chistar. De pronto estás haciendo planes para 2027 sin saber bien por qué.</p>
       <div class="power-stat"><span>NIVEL</span><span class="bar"><i style="--lvl:97%"></i></span><span>97</span></div>
     </div>
-    <div class="power-card" data-delay="320">
+    <div class="power-card" data-delay="320" data-power="5" data-bubble="LOVE!">
       <span class="corner-tag">#05</span>
       <div class="power-emoji">💖</div>
       <h3 class="power-name">Abrazo Antibalas</h3>
       <p class="power-desc">Inmuniza contra lunes, jefes y la vida en general. La OMS pidió la patente, dijo que no.</p>
       <div class="power-stat"><span>NIVEL</span><span class="bar"><i style="--lvl:98%"></i></span><span>98</span></div>
     </div>
-    <div class="power-card" data-delay="400">
+    <div class="power-card" data-delay="400" data-power="6" data-bubble="POOF!">
       <span class="corner-tag">#06</span>
       <div class="power-emoji">🦋</div>
       <h3 class="power-name">Caos Organizado</h3>
       <p class="power-desc">Llega tarde con estilo, lo cual es ciencia avanzada. Bend time itself, but make it fashion.</p>
       <div class="power-stat"><span>NIVEL</span><span class="bar"><i style="--lvl:88%"></i></span><span>88</span></div>
     </div>
-    <div class="power-card" data-delay="480">
+    <div class="power-card" data-delay="480" data-power="7" data-bubble="BANG!">
       <span class="corner-tag">#07</span>
       <div class="power-emoji">🎯</div>
       <h3 class="power-name">Puntería Emocional</h3>
       <p class="power-desc">Sabe exactamente qué decir para hacerme reír o llorar. A veces las dos cosas a la vez.</p>
       <div class="power-stat"><span>NIVEL</span><span class="bar"><i style="--lvl:94%"></i></span><span>94</span></div>
     </div>
-    <div class="power-card" data-delay="560">
+    <div class="power-card" data-delay="560" data-power="8" data-bubble="ÑAM!">
       <span class="corner-tag">#08</span>
       <div class="power-emoji">🍪</div>
       <h3 class="power-name">Robo Estratégico</h3>
       <p class="power-desc">"¿Me das un poquito?" = el 80% de lo que esté comiendo. La física no lo explica. La acepto.</p>
       <div class="power-stat"><span>NIVEL</span><span class="bar"><i style="--lvl:100%"></i></span><span>∞</span></div>
     </div>
-    <div class="power-card" data-delay="640">
+    <div class="power-card" data-delay="640" data-power="9" data-bubble="REINA">
       <span class="corner-tag">#09</span>
       <div class="power-emoji">👑</div>
       <h3 class="power-name">Aura de Reina</h3>
       <p class="power-desc">Entra a un lugar y la temperatura sube 3°. Las plantas se enderezan. Yo también.</p>
       <div class="power-stat"><span>NIVEL</span><span class="bar"><i style="--lvl:100%"></i></span><span>100</span></div>
+    </div>
     </div>
   </div>
 </section>
@@ -1092,7 +1573,46 @@
     }
   });
 
-  /* ====== 8) Click en el retrato = pulso pop ====== */
+  /* ====== 8) Avatar reactivo: hover en cada power card cambia el estado del avatar ====== */
+  const avatarWrap = document.getElementById('avatarWrap');
+  const stateTag = document.getElementById('stateTag');
+  const propBubble = document.getElementById('propBubble');
+  const propBubbleText = document.getElementById('propBubbleText');
+  const stateLabels = {
+    '0': 'IDLE',
+    '1': '⚡ BELLEZA LETAL',
+    '2': '😈 RISA SÍSMICA',
+    '3': '🔥 SONRISA ATÓMICA',
+    '4': '✨ HIPNOSIS',
+    '5': '💖 ABRAZO',
+    '6': '🦋 CAOS',
+    '7': '🎯 PUNTERÍA',
+    '8': '🍪 ROBO',
+    '9': '👑 REINA'
+  };
+  const powerCards = document.querySelectorAll('.power-card[data-power]');
+
+  function setAvatarState(state, bubble) {
+    avatarWrap.dataset.state = state;
+    stateTag.textContent = stateLabels[state] || 'IDLE';
+    if (bubble && state !== '0') {
+      propBubbleText.textContent = bubble;
+      propBubble.style.opacity = '1';
+    } else {
+      propBubble.style.opacity = '0';
+    }
+  }
+
+  powerCards.forEach(card => {
+    card.addEventListener('mouseenter', () => setAvatarState(card.dataset.power, card.dataset.bubble));
+    card.addEventListener('mouseleave', () => setAvatarState('0'));
+    card.addEventListener('focus', () => setAvatarState(card.dataset.power, card.dataset.bubble));
+    card.addEventListener('blur', () => setAvatarState('0'));
+    // Touch: tap rotativo
+    card.addEventListener('touchstart', () => setAvatarState(card.dataset.power, card.dataset.bubble), { passive: true });
+  });
+
+  /* ====== 9) Click en el retrato = pulso pop ====== */
   portrait.addEventListener('click', () => {
     portrait.animate([
       { filter: 'hue-rotate(0deg) saturate(1)', transform: portrait.style.transform + ' scale(1)' },
