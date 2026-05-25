@@ -1092,11 +1092,28 @@
     animation: targetPop 0.3s cubic-bezier(.34,1.56,.64,1) backwards;
     filter: drop-shadow(2px 2px 0 #0a0a0a);
   }
-  .g-target.miss { filter: drop-shadow(2px 2px 0 #ff2d55); }
+  .g-target.t-bad { filter: drop-shadow(2px 2px 0 #ff2d55); }
+  /* caritas (cabezas SVG) en el juego */
+  .g-target.t-head { padding: 0; font-size: 0; }
+  .g-target.t-head svg { width: 62px; height: 62px; display: block; filter: drop-shadow(2px 3px 0 rgba(0,0,0,0.35)); }
+  .g-target.t-dama svg { animation: headWiggle 0.8s ease-in-out infinite; }
+  .g-target.t-damian svg { animation: headWiggle 0.9s ease-in-out infinite reverse; }
+  @keyframes headWiggle {
+    0%, 100% { transform: rotate(-6deg); }
+    50% { transform: rotate(6deg); }
+  }
   @keyframes targetPop {
     from { transform: scale(0) rotate(-180deg); }
     to { transform: scale(1) rotate(0); }
   }
+  /* flash rojo al clickear algo malo */
+  .g-flash {
+    position: absolute; inset: 0;
+    background: rgba(255,45,85,0.35);
+    pointer-events: none;
+    animation: gFlash 0.25s ease-out forwards;
+  }
+  @keyframes gFlash { from { opacity: 1; } to { opacity: 0; } }
   .g-target.hit { animation: targetHit 0.22s ease-out forwards; }
   .g-target.hit-miss { animation: targetMiss 0.22s ease-out forwards; }
   @keyframes targetHit {
@@ -1113,6 +1130,170 @@
     font-family: 'Permanent Marker', cursive;
     font-size: 18px;
     border-top: 4px solid var(--pop-black);
+  }
+
+  /* Idle anim para avatares de la pareja */
+  .cc-avatar #charGroup, .cc-avatar #charGroupH {
+    transform-origin: 250px 600px; transform-box: view-box;
+    animation: idleSway 6s ease-in-out infinite;
+  }
+  .cc-him .cc-avatar #charGroupH { animation-delay: -3s; }
+  .cc-avatar #eyes, .cc-avatar #eyesH {
+    transform-origin: center; transform-box: fill-box;
+    animation: blink 5.5s ease-in-out infinite;
+  }
+  .cc-him .cc-avatar #eyesH { animation-delay: -2.5s; }
+  .cc-avatar #rayBurst, .cc-avatar #rayBurstH {
+    transform-origin: center; transform-box: view-box;
+    animation: spinRays 28s linear infinite;
+  }
+
+  /* ============== POWER COUPLE ============== */
+  .couple {
+    position: relative;
+    padding: clamp(60px, 8vw, 110px) clamp(20px, 5vw, 80px);
+    background:
+      radial-gradient(circle, rgba(41,98,255,0.10) 2px, transparent 2.5px) 0 0 / 26px 26px,
+      linear-gradient(180deg, #fff8e7 0%, #e8f4ff 100%);
+  }
+  .couple-wrap {
+    max-width: 1100px;
+    margin: 40px auto 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(10px, 2vw, 30px);
+    flex-wrap: nowrap;
+  }
+  .couple-card {
+    flex: 1 1 0;
+    max-width: 420px;
+    background: var(--pop-cream);
+    border: 6px solid var(--pop-black);
+    box-shadow: 10px 10px 0 var(--pop-black);
+    transition: transform 0.35s cubic-bezier(.34,1.56,.64,1), box-shadow 0.35s;
+    cursor: pointer;
+  }
+  .couple-card .cc-tag {
+    background: var(--pop-black);
+    color: var(--pop-yellow-2);
+    text-align: center;
+    font-family: 'Bowlby One', sans-serif;
+    font-size: clamp(13px, 1.5vw, 18px);
+    letter-spacing: 1.5px;
+    padding: 10px;
+  }
+  .cc-dama .cc-tag { color: #ffd000; }
+  .cc-him .cc-tag { color: #00d4ff; }
+  .couple-card .cc-avatar { position: relative; width: 100%; aspect-ratio: 500 / 560; overflow: hidden; }
+  .couple-card .cc-avatar svg { width: 100%; height: auto; display: block; }
+  .couple-card .cc-name {
+    text-align: center;
+    font-family: 'Bowlby One', sans-serif;
+    font-size: clamp(28px, 4vw, 48px);
+    color: var(--pop-black);
+    padding: 10px 0 2px;
+    letter-spacing: -1px;
+  }
+  .couple-card .cc-role {
+    text-align: center;
+    font-family: 'Permanent Marker', cursive;
+    font-size: clamp(13px, 1.6vw, 18px);
+    color: var(--pop-red);
+    padding-bottom: 16px;
+  }
+  .cc-dama { box-shadow: 10px 10px 0 var(--pop-red); }
+  .cc-him  { box-shadow: 10px 10px 0 var(--pop-blue); }
+  .couple-card:hover { transform: translateY(-10px) scale(1.02); }
+  /* Lean-in: al hover se inclinan uno hacia el otro */
+  .cc-dama:hover { transform: translateY(-10px) rotate(3deg); }
+  .cc-him:hover { transform: translateY(-10px) rotate(-3deg); }
+  body.shipped .cc-dama { transform: rotate(4deg) translateX(10px); }
+  body.shipped .cc-him { transform: rotate(-4deg) translateX(-10px); }
+
+  .couple-mid {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .ship-btn {
+    background: var(--pop-yellow-2);
+    border: 5px solid var(--pop-black);
+    box-shadow: 5px 5px 0 var(--pop-black);
+    border-radius: 50%;
+    width: clamp(80px, 12vw, 120px);
+    height: clamp(80px, 12vw, 120px);
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Bowlby One', sans-serif;
+    transition: transform 0.2s;
+    line-height: 1;
+  }
+  .ship-btn:hover { transform: scale(1.08) rotate(-5deg); }
+  .ship-btn:active { transform: scale(0.95); }
+  .ship-plus { font-size: clamp(36px, 5vw, 56px); color: var(--pop-red); }
+  .ship-eq { font-size: clamp(12px, 1.4vw, 16px); color: var(--pop-black); letter-spacing: 1px; margin-top: 2px; }
+  body.shipped .ship-plus { content: '♥'; }
+
+  .couple-result {
+    max-width: 700px;
+    margin: 36px auto 0;
+    text-align: center;
+    font-family: 'Permanent Marker', cursive;
+    font-size: clamp(18px, 2.4vw, 28px);
+    color: var(--pop-black);
+    background: var(--pop-yellow-2);
+    border: 4px solid var(--pop-black);
+    box-shadow: 6px 6px 0 var(--pop-red);
+    padding: 18px 24px;
+    transform: rotate(-1deg);
+    transition: all 0.4s;
+  }
+  body.shipped .couple-result {
+    background: var(--pop-red);
+    color: var(--pop-cream);
+    transform: rotate(1deg) scale(1.05);
+  }
+  /* Bocadillo de diálogo sobre las cards */
+  .couple-card { position: relative; }
+  .cc-bubble {
+    position: absolute;
+    top: 44px; left: 50%;
+    transform: translateX(-50%) scale(0);
+    background: #fff;
+    border: 4px solid var(--pop-black);
+    border-radius: 18px;
+    padding: 8px 14px;
+    font-family: 'Permanent Marker', cursive;
+    font-size: clamp(13px, 1.5vw, 17px);
+    color: var(--pop-black);
+    white-space: nowrap;
+    box-shadow: 4px 4px 0 var(--pop-black);
+    z-index: 20;
+    pointer-events: none;
+    transition: transform 0.25s cubic-bezier(.34,1.56,.64,1);
+  }
+  .cc-bubble::after {
+    content: '';
+    position: absolute;
+    bottom: -14px; left: 50%;
+    transform: translateX(-50%);
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 14px solid var(--pop-black);
+  }
+  .cc-bubble.show { transform: translateX(-50%) scale(1) rotate(-2deg); }
+  /* Corazón volador entre cards */
+  .fly-heart {
+    position: fixed;
+    z-index: 9997;
+    pointer-events: none;
+    font-size: 28px;
+    will-change: transform, opacity;
   }
 
   /* ============== BIG LOVE BTN ============== */
@@ -1187,6 +1368,15 @@
     .achievement { right: -100%; max-width: 260px; padding: 10px 14px; }
     .achievement.show { right: 16px; }
     .achievement .ach-icon { font-size: 28px; }
+  }
+
+  @media (max-width: 640px) {
+    .couple-wrap { flex-direction: column; gap: 0; }
+    .couple-card { flex: 0 0 auto; max-width: 320px; width: 100%; }
+    .couple-mid { margin: -14px 0; z-index: 5; }
+    body.shipped .cc-dama { transform: rotate(0deg) translateY(6px); }
+    body.shipped .cc-him { transform: rotate(0deg) translateY(-6px); }
+    .cc-dama:hover, .cc-him:hover { transform: translateY(-6px) rotate(0deg); }
   }
 
   @media (max-width: 880px) {
@@ -1845,22 +2035,602 @@
   </div>
 </section>
 
+<!-- =================== POWER COUPLE =================== -->
+<section class="couple" id="couple">
+  <div class="section-header">
+    <span class="section-eyebrow" style="background: var(--pop-cyan);">★ DREAM TEAM ★</span>
+    <h2 class="section-title">POWER COUPLE</h2>
+    <p class="section-subtitle">— La superstar y su fan número uno —</p>
+  </div>
+
+  <div class="couple-wrap">
+    <!-- Card Dama -->
+    <div class="couple-card cc-dama" data-who="dama">
+      <div class="cc-tag">LA SUPERSTAR</div>
+      <div class="cc-avatar"><svg id="simsAvatar" viewBox="0 0 500 700" xmlns="http://www.w3.org/2000/svg" aria-label="Avatar 3D de Dama estilo Sims">
+  <defs>
+    <!-- ===== GRADIENTES ===== -->
+    <!-- Cara: tono cálido con sombra lateral -->
+    <linearGradient id="skinG" x1="0.3" y1="0" x2="0.7" y2="1">
+      <stop offset="0%" stop-color="#fde0c2"/>
+      <stop offset="50%" stop-color="#f4cda3"/>
+      <stop offset="100%" stop-color="#dfa478"/>
+    </linearGradient>
+    <radialGradient id="cheekG" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0%" stop-color="#ff8a9c" stop-opacity="0.7"/>
+      <stop offset="100%" stop-color="#ff8a9c" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="noseShadow" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#e0a880" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#b8825a" stop-opacity="0.45"/>
+    </linearGradient>
+    <linearGradient id="jawShadow" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="transparent"/>
+      <stop offset="100%" stop-color="#b88262" stop-opacity="0.4"/>
+    </linearGradient>
+
+    <!-- Pelo: castaño rojizo con shading 3D -->
+    <linearGradient id="hairBase" x1="0.3" y1="0" x2="0.7" y2="1">
+      <stop offset="0%" stop-color="#6a2c14"/>
+      <stop offset="40%" stop-color="#4a1d0e"/>
+      <stop offset="100%" stop-color="#240a04"/>
+    </linearGradient>
+    <linearGradient id="hairTop" x1="0.5" y1="0" x2="0.5" y2="1">
+      <stop offset="0%" stop-color="#8a3a1a"/>
+      <stop offset="50%" stop-color="#5a2410"/>
+      <stop offset="100%" stop-color="#2a0f08"/>
+    </linearGradient>
+    <linearGradient id="hairHighlight" x1="0.5" y1="0" x2="0.5" y2="1">
+      <stop offset="0%" stop-color="#c46a30" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#c46a30" stop-opacity="0"/>
+    </linearGradient>
+
+    <!-- Ojos: iris con depth -->
+    <radialGradient id="irisG" cx="0.5" cy="0.45" r="0.55">
+      <stop offset="0%" stop-color="#8a5e34"/>
+      <stop offset="55%" stop-color="#5a3a1c"/>
+      <stop offset="100%" stop-color="#2a1808"/>
+    </radialGradient>
+    <radialGradient id="scleraG" cx="0.5" cy="0.4" r="0.7">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#dadce0"/>
+    </radialGradient>
+    <linearGradient id="lidShadow" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#3a1808" stop-opacity="0.55"/>
+      <stop offset="60%" stop-color="#3a1808" stop-opacity="0"/>
+    </linearGradient>
+
+    <!-- Labios -->
+    <linearGradient id="lipsTop" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#a01828"/>
+      <stop offset="100%" stop-color="#c83040"/>
+    </linearGradient>
+    <linearGradient id="lipsBot" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#d82850"/>
+      <stop offset="100%" stop-color="#801824"/>
+    </linearGradient>
+    <radialGradient id="lipsHL" cx="0.5" cy="0.3" r="0.4">
+      <stop offset="0%" stop-color="#ffaab0" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#ffaab0" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Top negro -->
+    <linearGradient id="topG" x1="0.5" y1="0" x2="0.5" y2="1">
+      <stop offset="0%" stop-color="#2a2a2a"/>
+      <stop offset="100%" stop-color="#000000"/>
+    </linearGradient>
+
+    <!-- Aura fondo -->
+    <radialGradient id="bgAura" cx="0.5" cy="0.4" r="0.7">
+      <stop offset="0%" stop-color="#fff200"/>
+      <stop offset="55%" stop-color="#ffb300"/>
+      <stop offset="100%" stop-color="#ff6f00"/>
+    </radialGradient>
+    <pattern id="dotsBg" x="0" y="0" width="14" height="14" patternUnits="userSpaceOnUse">
+      <circle cx="7" cy="7" r="2.4" fill="#ff2d55" opacity="0.5"/>
+    </pattern>
+
+    <!-- Filtros -->
+    <filter id="soft" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="1.2"/>
+    </filter>
+  </defs>
+
+  <!-- ===== FONDO ===== -->
+  <rect width="500" height="700" fill="url(#bgAura)"/>
+  <circle cx="250" cy="280" r="230" fill="url(#dotsBg)" opacity="0.35"/>
+  <g id="rayBurst" transform="translate(250 280)">
+    <polygon points="0,-260 16,0 -16,0" fill="#ff2d55" opacity="0.7" transform="rotate(0)"/>
+    <polygon points="0,-260 16,0 -16,0" fill="#ff2d55" opacity="0.7" transform="rotate(30)"/>
+    <polygon points="0,-260 16,0 -16,0" fill="#ff2d55" opacity="0.7" transform="rotate(60)"/>
+    <polygon points="0,-260 16,0 -16,0" fill="#ff2d55" opacity="0.7" transform="rotate(90)"/>
+    <polygon points="0,-260 16,0 -16,0" fill="#ff2d55" opacity="0.7" transform="rotate(120)"/>
+    <polygon points="0,-260 16,0 -16,0" fill="#ff2d55" opacity="0.7" transform="rotate(150)"/>
+    <polygon points="0,-260 16,0 -16,0" fill="#ff2d55" opacity="0.7" transform="rotate(180)"/>
+    <polygon points="0,-260 16,0 -16,0" fill="#ff2d55" opacity="0.7" transform="rotate(210)"/>
+    <polygon points="0,-260 16,0 -16,0" fill="#ff2d55" opacity="0.7" transform="rotate(240)"/>
+    <polygon points="0,-260 16,0 -16,0" fill="#ff2d55" opacity="0.7" transform="rotate(270)"/>
+    <polygon points="0,-260 16,0 -16,0" fill="#ff2d55" opacity="0.7" transform="rotate(300)"/>
+    <polygon points="0,-260 16,0 -16,0" fill="#ff2d55" opacity="0.7" transform="rotate(330)"/>
+  </g>
+
+  <!-- ===== PERSONAJE (todo en un grupo para tilt 3D) ===== -->
+  <g id="charGroup">
+
+    <!-- HAIR BACK: masa única que cae detrás (más compacta) -->
+    <path d="M125 200 Q 80 320 95 480 Q 110 600 160 680 Q 210 700 250 700 Q 290 700 340 680 Q 390 600 405 480 Q 420 320 375 200 Q 320 175 250 175 Q 180 175 125 200 Z"
+          fill="url(#hairBase)"/>
+    <!-- Mechones traseros visibles -->
+    <path d="M120 350 Q 115 500 145 640" stroke="#3a1408" stroke-width="2.2" fill="none" opacity="0.6"/>
+    <path d="M380 350 Q 385 500 355 640" stroke="#3a1408" stroke-width="2.2" fill="none" opacity="0.6"/>
+    <path d="M155 380 Q 152 520 175 660" stroke="#2a0f08" stroke-width="1.6" fill="none" opacity="0.5"/>
+    <path d="M345 380 Q 348 520 325 660" stroke="#2a0f08" stroke-width="1.6" fill="none" opacity="0.5"/>
+
+    <!-- HOMBROS / TOP NEGRO -->
+    <path d="M120 530 Q 120 480 160 460 Q 200 445 250 445 Q 300 445 340 460 Q 380 480 380 530 L 380 700 L 120 700 Z"
+          fill="url(#topG)"/>
+    <!-- Escote en V suave -->
+    <path d="M210 460 Q 250 510 290 460 Q 280 450 250 450 Q 220 450 210 460 Z"
+          fill="url(#skinG)"/>
+
+    <!-- CUELLO -->
+    <path d="M218 400 Q 218 445 250 460 Q 282 445 282 400 Z"
+          fill="url(#skinG)"/>
+    <!-- Sombra cuello -->
+    <path d="M218 410 Q 218 450 250 460 Q 282 450 282 410 Q 270 430 250 432 Q 230 430 218 410 Z"
+          fill="#b88262" opacity="0.35"/>
+
+    <!-- CHOKER NEGRO (SIGNATURE) -->
+    <path d="M210 408 Q 250 422 290 408 L 290 422 Q 250 438 210 422 Z"
+          fill="#0a0a0a"/>
+    <!-- Dije del choker -->
+    <circle cx="250" cy="438" r="7" fill="#d4d4d4" stroke="#0a0a0a" stroke-width="1.5"/>
+    <circle cx="250" cy="438" r="3" fill="#0a0a0a"/>
+    <!-- Lazo del choker (estilo cordón) -->
+    <path d="M235 425 Q 230 438 245 445" stroke="#0a0a0a" stroke-width="2" fill="none"/>
+    <path d="M265 425 Q 270 438 255 445" stroke="#0a0a0a" stroke-width="2" fill="none"/>
+
+    <!-- CARA: óvalo con shading -->
+    <path d="M155 230 Q 145 360 215 405 Q 250 425 285 405 Q 355 360 345 230 Q 340 165 250 158 Q 160 165 155 230 Z"
+          fill="url(#skinG)"/>
+    <!-- Sombra jaw -->
+    <path d="M180 360 Q 215 410 250 420 Q 285 410 320 360 Q 310 400 250 415 Q 190 400 180 360 Z"
+          fill="url(#jawShadow)" opacity="0.6"/>
+    <!-- Highlight frente -->
+    <ellipse cx="250" cy="200" rx="65" ry="22" fill="#fff" opacity="0.18"/>
+
+    <!-- BLUSH / pómulos -->
+    <ellipse cx="195" cy="305" rx="32" ry="18" fill="url(#cheekG)"/>
+    <ellipse cx="305" cy="305" rx="32" ry="18" fill="url(#cheekG)"/>
+
+    <!-- NARIZ: shading suave + punta -->
+    <path d="M248 235 Q 240 280 244 310 Q 250 322 260 320 Q 268 314 264 285 Q 260 250 252 235 Z"
+          fill="url(#noseShadow)"/>
+    <!-- Punta de la nariz (highlight) -->
+    <ellipse cx="252" cy="313" rx="5" ry="3" fill="#fff" opacity="0.3"/>
+    <!-- Fosas sutiles -->
+    <ellipse cx="246" cy="318" rx="2.2" ry="1.4" fill="#a0664a" opacity="0.5"/>
+    <ellipse cx="258" cy="318" rx="2.2" ry="1.4" fill="#a0664a" opacity="0.5"/>
+    <!-- Línea base de la nariz (sutil) -->
+    <path d="M244 312 Q 252 322 262 312" stroke="#a0664a" stroke-width="1.5" fill="none" opacity="0.5" stroke-linecap="round"/>
+
+    <!-- CEJAS (subidas, curvas y definidas con highlight) -->
+    <path d="M165 218 Q 195 200 232 218 Q 228 224 200 220 Q 178 222 165 228 Z"
+          fill="#2a0f08"/>
+    <path d="M335 218 Q 305 200 268 218 Q 272 224 300 220 Q 322 222 335 228 Z"
+          fill="#2a0f08"/>
+    <!-- Pelos sutiles cejas -->
+    <path d="M170 222 L 175 218 M185 218 L 189 213 M200 215 L 205 211 M218 215 L 222 218 M228 220 L 232 224"
+          stroke="#4a1c10" stroke-width="0.9" fill="none" stroke-linecap="round"/>
+    <path d="M330 222 L 325 218 M315 218 L 311 213 M300 215 L 295 211 M282 215 L 278 218 M272 220 L 268 224"
+          stroke="#4a1c10" stroke-width="0.9" fill="none" stroke-linecap="round"/>
+
+    <!-- OJOS (estilo anime/Pixar) -->
+    <g id="eyes">
+      <!-- Ojo izquierdo -->
+      <g class="eye" id="eyeL">
+        <!-- Sclera -->
+        <ellipse cx="200" cy="265" rx="34" ry="26" fill="url(#scleraG)"/>
+        <!-- Sombra párpado superior -->
+        <ellipse cx="200" cy="252" rx="32" ry="14" fill="url(#lidShadow)"/>
+        <!-- Iris -->
+        <ellipse class="iris" cx="200" cy="268" rx="22" ry="25" fill="url(#irisG)"/>
+        <!-- Detalle iris (líneas radiales) -->
+        <ellipse cx="200" cy="268" rx="14" ry="18" fill="none" stroke="#1a0c04" stroke-width="0.8" opacity="0.6"/>
+        <!-- Pupila -->
+        <circle class="pupil" cx="200" cy="268" r="9" fill="#0a0604"/>
+        <!-- Highlight grande -->
+        <ellipse cx="208" cy="258" rx="8" ry="10" fill="#ffffff" opacity="0.95"/>
+        <!-- Highlight chico -->
+        <circle cx="193" cy="278" r="3.5" fill="#ffffff" opacity="0.85"/>
+        <!-- Línea párpado superior gruesa (eyeliner) -->
+        <path d="M166 252 Q 200 232 235 252" stroke="#1a0a04" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+        <!-- Línea párpado inferior fina -->
+        <path d="M170 278 Q 200 290 232 278" stroke="#1a0a04" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.6"/>
+        <!-- Pestañas -->
+        <path d="M170 250 L 165 240 M180 245 L 178 234 M192 242 L 192 230 M208 242 L 208 230 M222 245 L 224 234 M232 250 L 237 240"
+              stroke="#1a0a04" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      </g>
+      <!-- Ojo derecho (espejo) -->
+      <g class="eye" id="eyeR">
+        <ellipse cx="300" cy="265" rx="34" ry="26" fill="url(#scleraG)"/>
+        <ellipse cx="300" cy="252" rx="32" ry="14" fill="url(#lidShadow)"/>
+        <ellipse class="iris" cx="300" cy="268" rx="22" ry="25" fill="url(#irisG)"/>
+        <ellipse cx="300" cy="268" rx="14" ry="18" fill="none" stroke="#1a0c04" stroke-width="0.8" opacity="0.6"/>
+        <circle class="pupil" cx="300" cy="268" r="9" fill="#0a0604"/>
+        <ellipse cx="308" cy="258" rx="8" ry="10" fill="#ffffff" opacity="0.95"/>
+        <circle cx="293" cy="278" r="3.5" fill="#ffffff" opacity="0.85"/>
+        <path d="M265 252 Q 300 232 334 252" stroke="#1a0a04" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+        <path d="M268 278 Q 300 290 330 278" stroke="#1a0a04" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.6"/>
+        <path d="M268 250 L 263 240 M278 245 L 276 234 M290 242 L 290 230 M310 242 L 310 230 M322 245 L 324 234 M330 250 L 335 240"
+              stroke="#1a0a04" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      </g>
+    </g>
+
+    <!-- LABIOS (sonrisa cute con dientes apenas visible) -->
+    <g id="lips">
+      <!-- Labio superior con cupido -->
+      <path d="M205 340 Q 222 326 240 334 Q 244 328 250 330 Q 256 328 260 334 Q 278 326 295 340 Q 290 346 250 346 Q 210 346 205 340 Z"
+            fill="url(#lipsTop)"/>
+      <!-- Labio inferior pulposo -->
+      <path d="M212 346 Q 250 380 288 346 Q 278 370 250 372 Q 222 370 212 346 Z"
+            fill="url(#lipsBot)"/>
+      <!-- Línea central (sonrisa abierta sutilmente — muestra dientes) -->
+      <path d="M213 346 Q 250 355 287 346 Q 280 352 250 352 Q 220 352 213 346 Z"
+            fill="#ffffff" opacity="0.85"/>
+      <!-- Línea sutil entre dientes -->
+      <path d="M225 350 L 228 350 M240 351 L 244 351 M254 351 L 258 351 M268 350 L 272 350"
+            stroke="#d4d4d4" stroke-width="0.8"/>
+      <!-- Highlight labio inferior -->
+      <ellipse cx="250" cy="358" rx="16" ry="3.5" fill="url(#lipsHL)"/>
+      <!-- Highlight pequeñito labio superior -->
+      <ellipse cx="248" cy="336" rx="7" ry="1.8" fill="#ffaab0" opacity="0.6"/>
+      <!-- Comisuras (sonrisa hacia arriba) -->
+      <path d="M205 342 Q 200 346 212 346" stroke="#5a0810" stroke-width="1.2" fill="none" opacity="0.6"/>
+      <path d="M295 342 Q 300 346 288 346" stroke="#5a0810" stroke-width="1.2" fill="none" opacity="0.6"/>
+    </g>
+
+    <!-- AROS -->
+    <ellipse cx="146" cy="318" rx="6" ry="10" fill="none" stroke="#ffd700" stroke-width="3.5"/>
+    <ellipse cx="146" cy="318" rx="6" ry="10" fill="none" stroke="#0a0a0a" stroke-width="1"/>
+    <ellipse cx="354" cy="318" rx="6" ry="10" fill="none" stroke="#ffd700" stroke-width="3.5"/>
+    <ellipse cx="354" cy="318" rx="6" ry="10" fill="none" stroke="#0a0a0a" stroke-width="1"/>
+
+    <!-- PELO FRONTAL: mechones laterales que enmarcan la cara -->
+    <path d="M155 180 Q 130 280 140 400 Q 145 440 165 460 L 155 460 Q 125 430 118 360 Q 110 250 140 170 Q 145 165 155 180 Z"
+          fill="url(#hairTop)"/>
+    <path d="M345 180 Q 370 280 360 400 Q 355 440 335 460 L 345 460 Q 375 430 382 360 Q 390 250 360 170 Q 355 165 345 180 Z"
+          fill="url(#hairTop)"/>
+    <!-- Highlights mechones laterales -->
+    <path d="M148 220 Q 138 330 152 420" stroke="url(#hairHighlight)" stroke-width="6" fill="none" opacity="0.7"/>
+    <path d="M352 220 Q 362 330 348 420" stroke="url(#hairHighlight)" stroke-width="6" fill="none" opacity="0.7"/>
+
+    <!-- PELO SUPERIOR (cuero cabelludo) -->
+    <path d="M135 220 Q 115 130 200 105 Q 250 95 300 105 Q 385 130 365 220 Q 350 175 320 168 Q 285 162 250 162 Q 215 162 180 168 Q 150 175 135 220 Z"
+          fill="url(#hairTop)"/>
+    <!-- Brillo superior -->
+    <ellipse cx="250" cy="140" rx="50" ry="10" fill="#c46a30" opacity="0.7"/>
+    <ellipse cx="250" cy="148" rx="80" ry="6" fill="#fff" opacity="0.18"/>
+
+    <!-- FLEQUILLO RECTO (SIGNATURE) - tira gruesa que cubre frente -->
+    <path d="M165 180 Q 175 130 215 125 Q 250 120 285 125 Q 325 130 335 180 Q 330 240 310 250 Q 280 256 250 252 Q 220 256 190 250 Q 170 240 165 180 Z"
+          fill="url(#hairTop)"/>
+    <!-- Detalle/separaciones del flequillo (mechones individuales) -->
+    <path d="M178 215 Q 180 235 175 250 M195 220 Q 197 240 192 252 M213 224 Q 215 244 210 254 M232 225 Q 232 245 228 255 M252 226 Q 252 246 250 256 M272 225 Q 272 244 270 255 M290 224 Q 287 244 292 254 M308 220 Q 305 240 310 252 M323 215 Q 320 235 325 250"
+          stroke="#1a0a04" stroke-width="1.8" fill="none" stroke-linecap="round" opacity="0.65"/>
+    <!-- Highlight del flequillo (brillo del pelo) -->
+    <path d="M195 145 Q 250 132 305 145" stroke="#a85620" stroke-width="3.5" fill="none" stroke-linecap="round" opacity="0.55"/>
+
+    <!-- MECHÓN suelto que cae sobre la frente (cute detail) -->
+    <path d="M218 175 Q 215 192 222 205 Q 226 195 222 180 Z" fill="#3a1408" opacity="0.75"/>
+
+  </g>
+
+  <!-- Sombra al piso -->
+  <ellipse cx="250" cy="680" rx="100" ry="10" fill="#000" opacity="0.25"/>
+</svg></div>
+      <div class="cc-name">DAMA</div>
+      <div class="cc-role">★ Peligrosamente Adorable ★</div>
+    </div>
+
+    <!-- Conector central -->
+    <div class="couple-mid">
+      <button class="ship-btn" id="shipBtn" type="button">
+        <span class="ship-plus">+</span>
+        <span class="ship-eq" id="shipEq">= ?</span>
+      </button>
+    </div>
+
+    <!-- Card Damián -->
+    <div class="couple-card cc-him" data-who="him">
+      <div class="cc-tag">EL FAN #1</div>
+      <div class="cc-avatar"><svg id="simsAvatarHim" viewBox="0 0 500 700" xmlns="http://www.w3.org/2000/svg" aria-label="Avatar 3D de Damián estilo Sims">
+  <defs>
+    <linearGradient id="skinGH" x1="0.3" y1="0" x2="0.7" y2="1">
+      <stop offset="0%" stop-color="#f4cda0"/>
+      <stop offset="50%" stop-color="#e8b682"/>
+      <stop offset="100%" stop-color="#cf9560"/>
+    </linearGradient>
+    <radialGradient id="cheekGH" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0%" stop-color="#e08a6a" stop-opacity="0.45"/>
+      <stop offset="100%" stop-color="#e08a6a" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="jawShadowH" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="transparent"/>
+      <stop offset="100%" stop-color="#a87245" stop-opacity="0.4"/>
+    </linearGradient>
+    <linearGradient id="noseShadowH" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#d09a68" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#a8744a" stop-opacity="0.5"/>
+    </linearGradient>
+
+    <!-- Pelo castaño oscuro -->
+    <linearGradient id="hairBaseH" x1="0.3" y1="0" x2="0.7" y2="1">
+      <stop offset="0%" stop-color="#4a3422"/>
+      <stop offset="50%" stop-color="#2a1c10"/>
+      <stop offset="100%" stop-color="#140c06"/>
+    </linearGradient>
+    <linearGradient id="hairTopH" x1="0.5" y1="0" x2="0.5" y2="1">
+      <stop offset="0%" stop-color="#5a4028"/>
+      <stop offset="50%" stop-color="#3a2818"/>
+      <stop offset="100%" stop-color="#1a1008"/>
+    </linearGradient>
+    <linearGradient id="hairHLH" x1="0.5" y1="0" x2="0.5" y2="1">
+      <stop offset="0%" stop-color="#8a6038" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#8a6038" stop-opacity="0"/>
+    </linearGradient>
+
+    <!-- Barba -->
+    <linearGradient id="beardG" x1="0.5" y1="0" x2="0.5" y2="1">
+      <stop offset="0%" stop-color="#3a2818" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#1a1008"/>
+    </linearGradient>
+
+    <radialGradient id="irisGH" cx="0.5" cy="0.45" r="0.55">
+      <stop offset="0%" stop-color="#7a5430"/>
+      <stop offset="55%" stop-color="#4a3018"/>
+      <stop offset="100%" stop-color="#241408"/>
+    </radialGradient>
+    <radialGradient id="scleraGH" cx="0.5" cy="0.4" r="0.7">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#dadce0"/>
+    </radialGradient>
+    <linearGradient id="lidShadowH" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2a1808" stop-opacity="0.5"/>
+      <stop offset="60%" stop-color="#2a1808" stop-opacity="0"/>
+    </linearGradient>
+
+    <linearGradient id="lipsH" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#c08068"/>
+      <stop offset="100%" stop-color="#a05c48"/>
+    </linearGradient>
+
+    <linearGradient id="topGH" x1="0.5" y1="0" x2="0.5" y2="1">
+      <stop offset="0%" stop-color="#2a2a2a"/>
+      <stop offset="100%" stop-color="#000000"/>
+    </linearGradient>
+
+    <!-- Aura fondo AZUL/CYAN (lo diferencia de Dama) -->
+    <radialGradient id="bgAuraH" cx="0.5" cy="0.4" r="0.7">
+      <stop offset="0%" stop-color="#00e5ff"/>
+      <stop offset="55%" stop-color="#2962ff"/>
+      <stop offset="100%" stop-color="#1a1a8a"/>
+    </radialGradient>
+    <pattern id="dotsBgH" x="0" y="0" width="14" height="14" patternUnits="userSpaceOnUse">
+      <circle cx="7" cy="7" r="2.4" fill="#00d4ff" opacity="0.55"/>
+    </pattern>
+  </defs>
+
+  <!-- FONDO -->
+  <rect width="500" height="700" fill="url(#bgAuraH)"/>
+  <circle cx="250" cy="280" r="230" fill="url(#dotsBgH)" opacity="0.4"/>
+  <g id="rayBurstH" transform="translate(250 280)">
+    <polygon points="0,-260 16,0 -16,0" fill="#00d4ff" opacity="0.75" transform="rotate(0)"/>
+    <polygon points="0,-260 16,0 -16,0" fill="#00d4ff" opacity="0.75" transform="rotate(30)"/>
+    <polygon points="0,-260 16,0 -16,0" fill="#00d4ff" opacity="0.75" transform="rotate(60)"/>
+    <polygon points="0,-260 16,0 -16,0" fill="#00d4ff" opacity="0.75" transform="rotate(90)"/>
+    <polygon points="0,-260 16,0 -16,0" fill="#00d4ff" opacity="0.75" transform="rotate(120)"/>
+    <polygon points="0,-260 16,0 -16,0" fill="#00d4ff" opacity="0.75" transform="rotate(150)"/>
+    <polygon points="0,-260 16,0 -16,0" fill="#00d4ff" opacity="0.75" transform="rotate(180)"/>
+    <polygon points="0,-260 16,0 -16,0" fill="#00d4ff" opacity="0.75" transform="rotate(210)"/>
+    <polygon points="0,-260 16,0 -16,0" fill="#00d4ff" opacity="0.75" transform="rotate(240)"/>
+    <polygon points="0,-260 16,0 -16,0" fill="#00d4ff" opacity="0.75" transform="rotate(270)"/>
+    <polygon points="0,-260 16,0 -16,0" fill="#00d4ff" opacity="0.75" transform="rotate(300)"/>
+    <polygon points="0,-260 16,0 -16,0" fill="#00d4ff" opacity="0.75" transform="rotate(330)"/>
+  </g>
+
+  <g id="charGroupH">
+    <!-- HOMBROS / REMERA NEGRA (más anchos, masculino) -->
+    <path d="M95 560 Q 95 480 145 458 Q 195 442 250 442 Q 305 442 355 458 Q 405 480 405 560 L 405 700 L 95 700 Z"
+          fill="url(#topGH)"/>
+    <!-- Cuello del shirt -->
+    <path d="M205 452 Q 250 478 295 452 Q 290 446 250 446 Q 210 446 205 452 Z"
+          fill="#1a1a1a"/>
+
+    <!-- CUELLO (ancho, masculino) -->
+    <path d="M210 388 Q 210 442 250 458 Q 290 442 290 388 Z"
+          fill="url(#skinGH)"/>
+    <path d="M210 400 Q 210 445 250 458 Q 290 445 290 400 Q 275 425 250 427 Q 225 425 210 400 Z"
+          fill="#a87245" opacity="0.35"/>
+    <!-- Nuez de Adán sutil -->
+    <ellipse cx="250" cy="420" rx="6" ry="9" fill="#c89060" opacity="0.3"/>
+
+    <!-- OREJAS -->
+    <ellipse cx="152" cy="290" rx="18" ry="26" fill="url(#skinGH)"/>
+    <ellipse cx="348" cy="290" rx="18" ry="26" fill="url(#skinGH)"/>
+    <path d="M148 280 Q 156 290 150 305" stroke="#b87a4e" stroke-width="2" fill="none" opacity="0.6"/>
+    <path d="M352 280 Q 344 290 350 305" stroke="#b87a4e" stroke-width="2" fill="none" opacity="0.6"/>
+
+    <!-- CARA (más angular/cuadrada, masculina) -->
+    <path d="M162 235 Q 158 350 200 405 Q 225 432 250 435 Q 275 432 300 405 Q 342 350 338 235 Q 335 165 250 160 Q 165 165 162 235 Z"
+          fill="url(#skinGH)"/>
+    <!-- Sombra mandíbula -->
+    <path d="M180 360 Q 215 415 250 425 Q 285 415 320 360 Q 312 405 250 420 Q 188 405 180 360 Z"
+          fill="url(#jawShadowH)" opacity="0.55"/>
+    <!-- Highlight frente -->
+    <ellipse cx="250" cy="205" rx="62" ry="20" fill="#fff" opacity="0.14"/>
+
+    <!-- BLUSH sutil -->
+    <ellipse cx="195" cy="320" rx="28" ry="14" fill="url(#cheekGH)"/>
+    <ellipse cx="305" cy="320" rx="28" ry="14" fill="url(#cheekGH)"/>
+
+    <!-- CEJAS (gruesas, rectas, masculinas) -->
+    <path d="M170 228 Q 200 214 235 222 Q 233 232 200 228 Q 180 228 170 238 Z" fill="#2a1c10"/>
+    <path d="M330 228 Q 300 214 265 222 Q 267 232 300 228 Q 320 228 330 238 Z" fill="#2a1c10"/>
+
+    <!-- OJOS (marrones, un toque más chicos que Dama) -->
+    <g id="eyesH">
+      <g class="eye">
+        <ellipse cx="205" cy="262" rx="30" ry="22" fill="url(#scleraGH)"/>
+        <ellipse cx="205" cy="252" rx="28" ry="12" fill="url(#lidShadowH)"/>
+        <ellipse class="iris" cx="205" cy="264" rx="18" ry="20" fill="url(#irisGH)"/>
+        <circle class="pupil" cx="205" cy="264" r="8" fill="#0a0604"/>
+        <ellipse cx="211" cy="256" rx="6" ry="8" fill="#ffffff" opacity="0.95"/>
+        <circle cx="200" cy="272" r="2.8" fill="#ffffff" opacity="0.8"/>
+        <path d="M177 252 Q 205 236 234 252" stroke="#1a0f06" stroke-width="3" fill="none" stroke-linecap="round"/>
+      </g>
+      <g class="eye">
+        <ellipse cx="295" cy="262" rx="30" ry="22" fill="url(#scleraGH)"/>
+        <ellipse cx="295" cy="252" rx="28" ry="12" fill="url(#lidShadowH)"/>
+        <ellipse class="iris" cx="295" cy="264" rx="18" ry="20" fill="url(#irisGH)"/>
+        <circle class="pupil" cx="295" cy="264" r="8" fill="#0a0604"/>
+        <ellipse cx="301" cy="256" rx="6" ry="8" fill="#ffffff" opacity="0.95"/>
+        <circle cx="290" cy="272" r="2.8" fill="#ffffff" opacity="0.8"/>
+        <path d="M266 252 Q 295 236 324 252" stroke="#1a0f06" stroke-width="3" fill="none" stroke-linecap="round"/>
+      </g>
+    </g>
+
+    <!-- NARIZ (más definida, masculina) -->
+    <path d="M246 240 Q 238 290 242 318 Q 250 332 262 328 Q 270 320 266 290 Q 262 252 254 240 Z"
+          fill="url(#noseShadowH)"/>
+    <ellipse cx="252" cy="320" rx="6" ry="4" fill="#fff" opacity="0.25"/>
+    <path d="M240 318 Q 250 330 264 318" stroke="#a8744a" stroke-width="2" fill="none" opacity="0.6" stroke-linecap="round"/>
+    <ellipse cx="243" cy="320" rx="2.6" ry="1.8" fill="#8a5a38" opacity="0.6"/>
+    <ellipse cx="261" cy="320" rx="2.6" ry="1.8" fill="#8a5a38" opacity="0.6"/>
+    <!-- PIERCING nasal (aro en la fosa izquierda de él) -->
+    <circle cx="241" cy="324" r="4" fill="none" stroke="#d4d4d4" stroke-width="2"/>
+
+
+    <!-- LABIOS (naturales) -->
+    <path d="M226 348 Q 250 342 274 348 Q 265 356 250 356 Q 235 356 226 348 Z" fill="url(#lipsH)"/>
+    <path d="M228 350 Q 250 360 272 350 Q 263 358 250 358 Q 237 358 228 350 Z" fill="#9a5446" opacity="0.7"/>
+    <path d="M226 349 Q 250 353 274 349" stroke="#7a4032" stroke-width="1.2" fill="none" opacity="0.7"/>
+
+    <!-- PELO: lados cortos (degradé) -->
+    <path d="M158 250 Q 150 180 175 165 Q 165 220 172 280 Q 165 270 158 250 Z" fill="url(#hairTopH)"/>
+    <path d="M342 250 Q 350 180 325 165 Q 335 220 328 280 Q 335 270 342 250 Z" fill="url(#hairTopH)"/>
+
+    <!-- PELO ARRIBA con volumen (quiff / copete hacia arriba y atrás) -->
+    <path d="M156 230 Q 140 150 175 115 Q 165 135 180 140 Q 200 95 245 100 Q 230 110 245 115 Q 270 88 310 110 Q 340 130 348 175 Q 352 210 344 232 Q 335 175 305 165 Q 270 158 250 160 Q 200 160 175 172 Q 162 195 156 230 Z"
+          fill="url(#hairTopH)"/>
+    <!-- Mechones de volumen arriba -->
+    <path d="M185 135 Q 200 110 225 112" stroke="#1a1008" stroke-width="2" fill="none" opacity="0.5"/>
+    <path d="M250 108 Q 275 100 300 115" stroke="#1a1008" stroke-width="2" fill="none" opacity="0.5"/>
+    <path d="M168 175 Q 175 145 195 130" stroke="#1a1008" stroke-width="2" fill="none" opacity="0.5"/>
+    <!-- Highlight pelo -->
+    <path d="M195 130 Q 250 108 300 128" stroke="url(#hairHLH)" stroke-width="6" fill="none" opacity="0.6"/>
+    <ellipse cx="250" cy="135" rx="55" ry="10" fill="#8a6038" opacity="0.4"/>
+
+    <!-- ANTEOJOS redondos (signature) -->
+    <g id="glasses">
+      <circle cx="205" cy="262" r="34" fill="none" stroke="#1a1a1a" stroke-width="5"/>
+      <circle cx="295" cy="262" r="34" fill="none" stroke="#1a1a1a" stroke-width="5"/>
+      <!-- Puente -->
+      <path d="M239 256 Q 250 250 261 256" stroke="#1a1a1a" stroke-width="5" fill="none"/>
+      <!-- Patillas -->
+      <path d="M171 260 Q 158 258 150 264" stroke="#1a1a1a" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <path d="M329 260 Q 342 258 350 264" stroke="#1a1a1a" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <!-- Reflejo en los lentes -->
+      <path d="M192 250 Q 200 244 210 248" stroke="#fff" stroke-width="2.5" fill="none" opacity="0.5" stroke-linecap="round"/>
+      <path d="M282 250 Q 290 244 300 248" stroke="#fff" stroke-width="2.5" fill="none" opacity="0.5" stroke-linecap="round"/>
+    </g>
+  </g>
+
+  <ellipse cx="250" cy="680" rx="100" ry="10" fill="#000" opacity="0.25"/>
+</svg></div>
+      <div class="cc-name">DAMIÁN</div>
+      <div class="cc-role">★ Admirador Oficial ★</div>
+    </div>
+  </div>
+  <div class="couple-result" id="coupleResult">Tocá el <b>+</b> para revelar el resultado científico</div>
+</section>
+
 <!-- =================== MINI JUEGO =================== -->
 <section class="game" id="game">
   <div class="section-header">
     <span class="section-eyebrow" style="background: var(--pop-yellow-2);">★ NIVEL BONUS ★</span>
-    <h2 class="section-title">ATRAPÁ LOS CORAZONES</h2>
-    <p class="section-subtitle">— Cazá ❤️💖⭐ por 20 segundos. Evitá 💀🥬. Subí tu LOVE METER —</p>
+    <h2 class="section-title">CAZÁ EL AMOR</h2>
+    <p class="section-subtitle">— Atrapá a Dama (+2), a Damián (+1) y corazones (+1). Esquivá el celu 📱, el lunes ⏰ y la mala onda 💀 —</p>
   </div>
   <div class="game-wrap">
     <div class="game-hud">
       <div class="hud-item"><span class="hud-l">SCORE</span><span class="hud-v" id="gameScore">0</span></div>
       <div class="hud-item"><span class="hud-l">TIEMPO</span><span class="hud-v"><span id="gameTimer">20</span>s</span></div>
+      <div class="hud-item"><span class="hud-l">RÉCORD</span><span class="hud-v" id="gameBest">0</span></div>
       <button id="gameStart" class="game-btn">▶ EMPEZAR</button>
     </div>
     <div class="game-area" id="gameArea"></div>
-    <div class="game-msg" id="gameMessage">¡Apretá EMPEZAR y atrapá todos los corazones que puedas!</div>
+    <div class="game-msg" id="gameMessage">¡Apretá EMPEZAR! Atrapá a Dama y juntá la mayor cantidad de amor 💘</div>
   </div>
+  <!-- Templates de cabezas para el juego -->
+  <template id="damaHeadTpl"><svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><defs>
+<linearGradient id="dhSkin" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#fde0c2"/><stop offset="100%" stop-color="#e8b88e"/></linearGradient>
+<linearGradient id="dhHair" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#6a2c14"/><stop offset="100%" stop-color="#2a0f08"/></linearGradient>
+</defs>
+<circle cx="50" cy="50" r="48" fill="#fff200" stroke="#0a0a0a" stroke-width="4"/>
+<!-- pelo trasero -->
+<path d="M22 50 Q18 30 35 20 Q50 14 65 20 Q82 30 78 50 Q80 72 70 84 L30 84 Q20 72 22 50 Z" fill="url(#dhHair)"/>
+<!-- cara -->
+<path d="M32 42 Q30 64 42 74 Q50 80 58 74 Q70 64 68 42 Q66 28 50 27 Q34 28 32 42 Z" fill="url(#dhSkin)"/>
+<!-- flequillo -->
+<path d="M33 40 Q35 26 50 24 Q65 26 67 40 Q60 44 50 43 Q40 44 33 40 Z" fill="url(#dhHair)"/>
+<!-- mechones lados -->
+<path d="M31 40 Q26 58 33 76 L37 76 Q31 58 35 40 Z" fill="url(#dhHair)"/>
+<path d="M69 40 Q74 58 67 76 L63 76 Q69 58 65 40 Z" fill="url(#dhHair)"/>
+<!-- cejas -->
+<path d="M37 46 Q42 43 47 46" stroke="#2a0f08" stroke-width="2" fill="none" stroke-linecap="round"/>
+<path d="M53 46 Q58 43 63 46" stroke="#2a0f08" stroke-width="2" fill="none" stroke-linecap="round"/>
+<!-- ojos grandes -->
+<ellipse cx="42" cy="53" rx="7" ry="8" fill="#fff" stroke="#1a0a04" stroke-width="1.5"/>
+<circle cx="42" cy="54" r="4.5" fill="#5a3018"/><circle cx="42" cy="54" r="2" fill="#0a0604"/><circle cx="44" cy="52" r="1.3" fill="#fff"/>
+<ellipse cx="58" cy="53" rx="7" ry="8" fill="#fff" stroke="#1a0a04" stroke-width="1.5"/>
+<circle cx="58" cy="54" r="4.5" fill="#5a3018"/><circle cx="58" cy="54" r="2" fill="#0a0604"/><circle cx="60" cy="52" r="1.3" fill="#fff"/>
+<!-- labios -->
+<path d="M44 66 Q50 63 56 66 Q52 70 50 70 Q48 70 44 66 Z" fill="#c83040"/>
+<!-- blush -->
+<circle cx="37" cy="60" r="3" fill="#ff8a9c" opacity="0.5"/>
+<circle cx="63" cy="60" r="3" fill="#ff8a9c" opacity="0.5"/>
+</svg></template>
+  <template id="damianHeadTpl"><svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><defs>
+<linearGradient id="mhSkin" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#f4cda0"/><stop offset="100%" stop-color="#dba068"/></linearGradient>
+<linearGradient id="mhHair" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#4a3422"/><stop offset="100%" stop-color="#1a1008"/></linearGradient>
+</defs>
+<circle cx="50" cy="50" r="48" fill="#00d4ff" stroke="#0a0a0a" stroke-width="4"/>
+<!-- cara -->
+<path d="M33 44 Q31 64 42 74 Q50 80 58 74 Q69 64 67 44 Q65 30 50 29 Q35 30 33 44 Z" fill="url(#mhSkin)"/>
+<!-- pelo con volumen arriba -->
+<path d="M31 46 Q28 24 42 18 Q40 24 46 23 Q52 14 62 22 Q70 28 69 46 Q66 34 56 32 Q50 31 44 33 Q35 36 31 46 Z" fill="url(#mhHair)"/>
+<!-- patillas -->
+<path d="M32 44 Q30 56 34 64 L37 62 Q34 52 35 44 Z" fill="url(#mhHair)"/>
+<path d="M68 44 Q70 56 66 64 L63 62 Q66 52 65 44 Z" fill="url(#mhHair)"/>
+<!-- cejas -->
+<path d="M37 47 Q42 44 47 47" stroke="#2a1c10" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+<path d="M53 47 Q58 44 63 47" stroke="#2a1c10" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+<!-- ojos -->
+<ellipse cx="42" cy="54" rx="6" ry="6.5" fill="#fff" stroke="#1a0f06" stroke-width="1.3"/>
+<circle cx="42" cy="55" r="3.8" fill="#4a3018"/><circle cx="42" cy="55" r="1.7" fill="#0a0604"/><circle cx="43.5" cy="53.5" r="1.1" fill="#fff"/>
+<ellipse cx="58" cy="54" rx="6" ry="6.5" fill="#fff" stroke="#1a0f06" stroke-width="1.3"/>
+<circle cx="58" cy="55" r="3.8" fill="#4a3018"/><circle cx="58" cy="55" r="1.7" fill="#0a0604"/><circle cx="59.5" cy="53.5" r="1.1" fill="#fff"/>
+<!-- anteojos redondos -->
+<circle cx="42" cy="54" r="9" fill="none" stroke="#1a1a1a" stroke-width="2"/>
+<circle cx="58" cy="54" r="9" fill="none" stroke="#1a1a1a" stroke-width="2"/>
+<path d="M51 53 Q50 51 49 53" stroke="#1a1a1a" stroke-width="2" fill="none"/>
+<!-- nariz + piercing -->
+<path d="M48 58 Q50 64 53 60" stroke="#a8744a" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+<circle cx="47" cy="62" r="1.6" fill="none" stroke="#d4d4d4" stroke-width="1.2"/>
+<!-- boca -->
+<path d="M44 68 Q50 72 56 68" stroke="#9a5446" stroke-width="2" fill="none" stroke-linecap="round"/>
+</svg></template>
 </section>
 
 <!-- =================== NOSOTROS =================== -->
@@ -2292,57 +3062,86 @@
     setTimeout(() => { t.classList.remove('show'); setTimeout(() => t.remove(), 400); }, 3500);
   }
 
-  /* ====== 13) MINI-JUEGO Atrapá los corazones ====== */
+  /* ====== 13) MINI-JUEGO "Cazá el amor" (Dama y Damián personajes) ====== */
   const gameArea = document.getElementById('gameArea');
   const gameStartBtn = document.getElementById('gameStart');
   const gameScore = document.getElementById('gameScore');
   const gameTimer = document.getElementById('gameTimer');
+  const gameBest = document.getElementById('gameBest');
   const gameMessage = document.getElementById('gameMessage');
+  const damaHeadHTML = document.getElementById('damaHeadTpl') ? document.getElementById('damaHeadTpl').innerHTML : '😍';
+  const damianHeadHTML = document.getElementById('damianHeadTpl') ? document.getElementById('damianHeadTpl').innerHTML : '🤓';
   let gameRunning = false;
   let gameInterval = null;
-  let gameTimeout = null;
   let gameSpawnTimeout = null;
   let gScore = 0;
   let gTime = 20;
-  const gameSymbols = ['❤️', '💖', '💕', '⭐', '🌟', '💋', '😍'];
-  const gameMissSymbols = ['💀', '😴', '🥬'];
+  let gBest = parseInt(localStorage.getItem('damaGameBest') || '0', 10);
+  if (gameBest) gameBest.textContent = gBest;
+
+  // Tipos de objetivos
+  const goodTargets = [
+    { kind: 'dama',   pts: 2, cls: 't-head t-dama',   html: damaHeadHTML,  weight: 3 },
+    { kind: 'damian', pts: 1, cls: 't-head t-damian', html: damianHeadHTML, weight: 2 },
+    { kind: 'heart',  pts: 1, cls: 't-emoji', html: '❤️', weight: 3 },
+    { kind: 'heart2', pts: 1, cls: 't-emoji', html: '💖', weight: 2 },
+  ];
+  const badTargets = [
+    { kind: 'phone', pts: -3, cls: 't-emoji t-bad', html: '📱' },
+    { kind: 'clock', pts: -3, cls: 't-emoji t-bad', html: '⏰' },
+    { kind: 'skull', pts: -2, cls: 't-emoji t-bad', html: '💀' },
+  ];
+  // pool ponderado de buenos
+  const goodPool = [];
+  goodTargets.forEach(t => { for (let i=0;i<t.weight;i++) goodPool.push(t); });
+
+  let damaCaught = 0;
 
   function spawnTarget() {
     if (!gameRunning) return;
     const rect = gameArea.getBoundingClientRect();
-    const isMiss = Math.random() < 0.18;
+    const isMiss = Math.random() < 0.24;
+    const t = isMiss ? badTargets[Math.floor(Math.random()*badTargets.length)]
+                     : goodPool[Math.floor(Math.random()*goodPool.length)];
     const el = document.createElement('button');
-    el.className = 'g-target' + (isMiss ? ' miss' : '');
-    el.textContent = (isMiss ? gameMissSymbols : gameSymbols)[Math.floor(Math.random() * (isMiss ? gameMissSymbols.length : gameSymbols.length))];
-    const w = rect.width - 60, h = rect.height - 60;
-    el.style.left = (20 + Math.random() * w) + 'px';
-    el.style.top = (20 + Math.random() * h) + 'px';
+    el.className = 'g-target ' + t.cls;
+    el.innerHTML = t.html;
+    const w = rect.width - 70, h = rect.height - 70;
+    el.style.left = (24 + Math.random() * w) + 'px';
+    el.style.top = (24 + Math.random() * h) + 'px';
     el.addEventListener('click', (e) => {
       e.stopPropagation();
-      if (isMiss) {
-        gScore = Math.max(0, gScore - 3);
+      gScore = Math.max(0, gScore + t.pts);
+      gameScore.textContent = gScore;
+      if (t.pts > 0) {
+        sfx.pop();
+        spawnConfetti(e.clientX, e.clientY, t.kind === 'dama' ? 18 : 10);
+        incrementLove(t.pts);
+        el.classList.add('hit');
+        if (t.kind === 'dama') {
+          damaCaught++;
+          if (damaCaught === 10) showAchievement('💘 DAMA HUNTER', 'Atrapaste a Dama 10 veces');
+        }
+      } else {
         sfx.boom();
         el.classList.add('hit-miss');
-      } else {
-        gScore += 1;
-        sfx.pop();
-        spawnConfetti(e.clientX, e.clientY, 12);
-        incrementLove(2);
-        el.classList.add('hit');
+        const flash = document.createElement('div');
+        flash.className = 'g-flash';
+        gameArea.appendChild(flash);
+        setTimeout(() => flash.remove(), 250);
       }
-      gameScore.textContent = gScore;
       setTimeout(() => el.remove(), 220);
     });
     gameArea.appendChild(el);
-    setTimeout(() => { if (el.parentNode) el.remove(); }, 2200);
-    const next = 380 + Math.random() * 500;
+    setTimeout(() => { if (el.parentNode) el.remove(); }, 2000);
+    const next = 340 + Math.random() * 440;
     gameSpawnTimeout = setTimeout(spawnTarget, next);
   }
 
   function startGame() {
     if (gameRunning) return;
     gameRunning = true;
-    gScore = 0; gTime = 20;
+    gScore = 0; gTime = 20; damaCaught = 0;
     gameScore.textContent = '0';
     gameTimer.textContent = gTime;
     gameMessage.textContent = '';
@@ -2352,11 +3151,12 @@
     Array.from(gameArea.querySelectorAll('.g-target')).forEach(e => e.remove());
     sfx.ding();
     spawnTarget();
+    spawnTarget();
     gameInterval = setInterval(() => {
       gTime--;
       gameTimer.textContent = gTime;
       if (gTime <= 0) endGame();
-      else if (gTime <= 3) sfx.tone ? sfx.tone(440, 0.1) : tone(440, 0.1);
+      else if (gTime <= 3) tone(440, 0.1);
     }, 1000);
   }
   function endGame() {
@@ -2367,10 +3167,13 @@
     gameArea.classList.remove('active');
     gameStartBtn.textContent = '▶ JUGAR DE NUEVO';
     gameStartBtn.disabled = false;
+    let newRecord = false;
+    if (gScore > gBest) { gBest = gScore; localStorage.setItem('damaGameBest', String(gBest)); if (gameBest) gameBest.textContent = gBest; newRecord = true; }
     let msg = '';
-    if (gScore >= 30) { msg = `🏆 ¡INCREÍBLE! ${gScore} pts · Sos digno de Dama`; sfx.big(); bigConfetti(80); showAchievement('🏆 GAME MASTER', `${gScore} corazones cazados`); }
-    else if (gScore >= 15) { msg = `💖 Buen score: ${gScore} pts`; sfx.love(); }
-    else { msg = `🤏 Solo ${gScore} pts... volvé a intentar`; sfx.poof(); }
+    if (gScore >= 35) { msg = `🏆 ¡LEYENDA! ${gScore} pts · Cazaste todo el amor del mundo`; sfx.big(); bigConfetti(90); showAchievement('🏆 GAME MASTER', `${gScore} puntos de amor`); }
+    else if (gScore >= 18) { msg = `💖 ¡Bien ahí! ${gScore} pts · Dama está orgullosa`; sfx.love(); }
+    else { msg = `🤏 ${gScore} pts... el amor requiere práctica, dale de nuevo`; sfx.poof(); }
+    if (newRecord && gScore > 0) msg = '🥇 ¡NUEVO RÉCORD! ' + msg;
     gameMessage.textContent = msg;
     incrementLove(Math.floor(gScore / 2));
   }
@@ -2392,6 +3195,106 @@
       if (bigLoveClicks === 50) { showAchievement('💍 ¡SI ACEPTO!', '50 clicks. Esto es serio.'); sfx.big(); bigConfetti(200); }
     });
   }
+
+  /* ====== POWER COUPLE: botón ship ====== */
+  const shipBtn = document.getElementById('shipBtn');
+  const shipEq = document.getElementById('shipEq');
+  const coupleResult = document.getElementById('coupleResult');
+  const shipResults = [
+    '💛 AMOR ETERNO · 100% compatible',
+    '🔬 La ciencia confirma: ALMAS GEMELAS',
+    '♾️ Resultado: PARA SIEMPRE',
+    '⭐ DREAM TEAM nivel legendario',
+    '💍 Conclusión: ENDGAME'
+  ];
+  let shipIdx = 0;
+  let shipped = false;
+  if (shipBtn) {
+    shipBtn.addEventListener('click', () => {
+      shipped = true;
+      document.body.classList.add('shipped');
+      const plus = shipBtn.querySelector('.ship-plus');
+      if (plus) plus.textContent = '♥';
+      shipEq.textContent = '= ♥';
+      shipEq.style.color = '#ff2d55';
+      coupleResult.innerHTML = shipResults[shipIdx % shipResults.length];
+      shipIdx++;
+      sfx.love();
+      incrementLove(8);
+      const r = shipBtn.getBoundingClientRect();
+      spawnConfetti(r.left + r.width/2, r.top + r.height/2, 50);
+      // corazones que se mandan en ambos sentidos
+      const dama = document.querySelector('.cc-dama');
+      const him = document.querySelector('.cc-him');
+      flyHearts(dama, him, 7);
+      flyHearts(him, dama, 7);
+      if (shipIdx === 1) showAchievement('💘 SHIPPED', 'Oficialmente la mejor pareja');
+    });
+  }
+  // Frases + corazones voladores entre las cards
+  const damaCard = document.querySelector('.cc-dama');
+  const himCard = document.querySelector('.cc-him');
+  const damaPhrases = ['te amo bobo ❤️', '¿me comprás un helado? 🍦', 'dale, una serie más 📺', 'sos mi persona favorita', '¿bizcochito? 🥺', 'mi amorcito', 'vení que te abrazo'];
+  const damianPhrases = ['sos hermosa 😍', 'la más linda del mundo', 'te amo Dama ❤️', '¿otra foto juntos?', 'mi reina 👑', 'gané la lotería cósmica', 'sos todo para mí'];
+
+  function showCardBubble(card, text) {
+    let bubble = card.querySelector('.cc-bubble');
+    if (!bubble) {
+      bubble = document.createElement('div');
+      bubble.className = 'cc-bubble';
+      card.appendChild(bubble);
+    }
+    bubble.textContent = text;
+    void bubble.offsetWidth;
+    bubble.classList.add('show');
+    clearTimeout(bubble._t);
+    bubble._t = setTimeout(() => bubble.classList.remove('show'), 2200);
+  }
+
+  function flyHearts(fromCard, toCard, count) {
+    if (!fromCard || !toCard) return;
+    const fr = fromCard.getBoundingClientRect();
+    const tr = toCard.getBoundingClientRect();
+    const startX = fr.left + fr.width / 2;
+    const startY = fr.top + 60;
+    const endX = tr.left + tr.width / 2;
+    const endY = tr.top + 60;
+    const hearts = ['❤️', '💕', '💖', '💗'];
+    for (let i = 0; i < count; i++) {
+      const h = document.createElement('div');
+      h.className = 'fly-heart';
+      h.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+      h.style.left = startX + 'px';
+      h.style.top = startY + 'px';
+      document.body.appendChild(h);
+      const midX = (startX + endX) / 2 + (Math.random() - 0.5) * 120;
+      const midY = Math.min(startY, endY) - 60 - Math.random() * 80;
+      const delay = i * 90;
+      h.animate([
+        { transform: 'translate(-50%,-50%) scale(0.4)', opacity: 0, offset: 0 },
+        { opacity: 1, offset: 0.15 },
+        { transform: `translate(${midX - startX}px, ${midY - startY}px) scale(1.2)`, opacity: 1, offset: 0.55 },
+        { transform: `translate(${endX - startX}px, ${endY - startY}px) scale(0.6)`, opacity: 0, offset: 1 }
+      ], { duration: 1100, delay, easing: 'cubic-bezier(0.4,0,0.6,1)', fill: 'forwards' });
+      setTimeout(() => h.remove(), 1100 + delay + 60);
+    }
+  }
+
+  let lastBubbleTime = 0;
+  document.querySelectorAll('.couple-card').forEach(card => {
+    card.addEventListener('mouseenter', () => {
+      const now = Date.now();
+      if (now - lastBubbleTime < 300) return;
+      lastBubbleTime = now;
+      sfx.pop();
+      incrementLove(1);
+      const who = card.dataset.who;
+      const phrases = who === 'dama' ? damaPhrases : damianPhrases;
+      showCardBubble(card, phrases[Math.floor(Math.random() * phrases.length)]);
+      const other = who === 'dama' ? himCard : damaCard;
+      flyHearts(card, other, 4);
+    });
+  });
 
   /* ====== 15) Konami code → modo especial ====== */
   const konami = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
