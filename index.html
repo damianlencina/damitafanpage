@@ -870,7 +870,11 @@
   footer {
     background: var(--pop-black);
     color: var(--pop-cream);
-    padding: 40px 24px;
+    padding: 80px 24px;
+    min-height: 360px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     text-align: center;
     font-family: 'Bangers', cursive;
     letter-spacing: 3px;
@@ -1344,6 +1348,176 @@
     text-shadow: none;
   }
 
+  /* ============== RULETA DE CITAS ============== */
+  .roulette {
+    position: relative;
+    padding: clamp(60px, 8vw, 110px) clamp(20px, 5vw, 80px);
+    background:
+      radial-gradient(circle, rgba(255,111,0,0.10) 2px, transparent 2.5px) 0 0 / 26px 26px,
+      linear-gradient(180deg, #fff8e7 0%, #ffe8cc 100%);
+  }
+  .roulette-wrap {
+    max-width: 520px;
+    margin: 40px auto 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+  }
+  .wheel-stage {
+    position: relative;
+    width: min(420px, 82vw);
+    aspect-ratio: 1;
+  }
+  .wheel-svg {
+    width: 100%; height: 100%;
+    display: block;
+    filter: drop-shadow(8px 8px 0 var(--pop-black));
+  }
+  #wheelRotor {
+    transition: transform 4.5s cubic-bezier(0.17, 0.67, 0.12, 0.99);
+  }
+  .wheel-pointer {
+    position: absolute;
+    top: -18px; left: 50%;
+    transform: translateX(-50%);
+    font-size: 44px;
+    color: var(--pop-black);
+    z-index: 5;
+    filter: drop-shadow(0 2px 0 #fff);
+    line-height: 1;
+  }
+  .spin-btn {
+    background: var(--pop-red);
+    color: var(--pop-cream);
+    border: 5px solid var(--pop-black);
+    box-shadow: 6px 6px 0 var(--pop-black);
+    font-family: 'Bowlby One', sans-serif;
+    font-size: clamp(22px, 3vw, 32px);
+    letter-spacing: 1px;
+    padding: 14px 40px;
+    cursor: pointer;
+    transition: transform 0.15s;
+  }
+  .spin-btn:hover:not(:disabled) { transform: translate(-3px,-3px); box-shadow: 9px 9px 0 var(--pop-black); }
+  .spin-btn:active:not(:disabled) { transform: translate(3px,3px); box-shadow: 2px 2px 0 var(--pop-black); }
+  .spin-btn:disabled { opacity: 0.6; cursor: wait; }
+  .wheel-result {
+    background: var(--pop-yellow-2);
+    border: 4px solid var(--pop-black);
+    box-shadow: 6px 6px 0 var(--pop-red);
+    padding: 16px 26px;
+    font-family: 'Permanent Marker', cursive;
+    font-size: clamp(18px, 2.6vw, 26px);
+    color: var(--pop-black);
+    text-align: center;
+    transform: rotate(-1deg);
+    transition: all 0.3s;
+    max-width: 100%;
+  }
+  .wheel-result.reveal {
+    background: var(--pop-red);
+    color: var(--pop-cream);
+    transform: rotate(1deg) scale(1.06);
+  }
+
+  /* ============== LIGHTBOX ============== */
+  .lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    background: rgba(10,10,10,0.92);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 20px;
+  }
+  .lightbox.open { display: flex; animation: lbFade 0.25s ease; }
+  @keyframes lbFade { from { opacity: 0; } to { opacity: 1; } }
+  .lb-stage {
+    position: relative;
+    max-width: 84vw;
+    max-height: 84vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  #lbImg {
+    max-width: 84vw;
+    max-height: 76vh;
+    border: 6px solid var(--pop-cream);
+    box-shadow: 0 0 0 4px var(--pop-black), 12px 12px 0 var(--pop-red);
+    background: #fff;
+    object-fit: contain;
+    animation: lbPop 0.3s cubic-bezier(.34,1.56,.64,1);
+  }
+  @keyframes lbPop { from { transform: scale(0.85); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+  .lb-cap {
+    margin-top: 14px;
+    font-family: 'Permanent Marker', cursive;
+    font-size: 20px;
+    color: var(--pop-cream);
+    background: var(--pop-red);
+    padding: 6px 18px;
+    border: 3px solid var(--pop-black);
+    transform: rotate(-2deg);
+  }
+  .lb-close {
+    position: absolute;
+    top: 18px; right: 22px;
+    width: 54px; height: 54px;
+    background: var(--pop-red);
+    color: #fff;
+    border: 4px solid var(--pop-cream);
+    border-radius: 50%;
+    font-size: 24px;
+    font-weight: 900;
+    cursor: pointer;
+    z-index: 2;
+    transition: transform 0.2s;
+  }
+  .lb-close:hover { transform: rotate(90deg) scale(1.1); }
+  .lb-nav {
+    background: var(--pop-yellow-2);
+    color: var(--pop-black);
+    border: 4px solid var(--pop-black);
+    width: 60px; height: 60px;
+    border-radius: 50%;
+    font-size: 26px;
+    font-weight: 900;
+    cursor: pointer;
+    flex: 0 0 auto;
+    transition: transform 0.2s;
+  }
+  .lb-nav:hover { transform: scale(1.15); }
+
+  /* ============== FOOTER + FUEGOS ARTIFICIALES ============== */
+  footer { position: relative; overflow: hidden; }
+  #fireworksCanvas {
+    position: absolute;
+    inset: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .footer-content { position: relative; z-index: 1; }
+  .fw-btn {
+    background: var(--pop-yellow-2);
+    color: var(--pop-black);
+    border: 4px solid var(--pop-red);
+    box-shadow: 4px 4px 0 var(--pop-red);
+    font-family: 'Bowlby One', sans-serif;
+    font-size: 18px;
+    padding: 12px 26px;
+    cursor: pointer;
+    margin-bottom: 22px;
+    transition: transform 0.2s;
+    letter-spacing: 1px;
+  }
+  .fw-btn:hover { transform: scale(1.06) rotate(-2deg); }
+  .fw-btn:active { transform: scale(0.96); }
+
   /* ============== KONAMI MODE (cuando se activa) ============== */
   body.konami-mode .hero { filter: hue-rotate(60deg) saturate(1.5); }
   body.konami-mode h1.dama-title { animation: rainbow 2s linear infinite; }
@@ -1377,6 +1551,10 @@
     body.shipped .cc-dama { transform: rotate(0deg) translateY(6px); }
     body.shipped .cc-him { transform: rotate(0deg) translateY(-6px); }
     .cc-dama:hover, .cc-him:hover { transform: translateY(-6px) rotate(0deg); }
+    .lb-nav { width: 46px; height: 46px; font-size: 20px; }
+    .lb-close { width: 44px; height: 44px; font-size: 20px; top: 10px; right: 12px; }
+    #lbImg { max-width: 78vw; }
+    .wheel-pointer { font-size: 36px; top: -14px; }
   }
 
   @media (max-width: 880px) {
@@ -2633,6 +2811,31 @@
 </svg></template>
 </section>
 
+<!-- =================== RULETA DE CITAS =================== -->
+<section class="roulette" id="roulette">
+  <div class="section-header">
+    <span class="section-eyebrow" style="background: var(--pop-orange); color:#fff;">★ DECISIÓN OFICIAL ★</span>
+    <h2 class="section-title">¿QUÉ HACEMOS HOY?</h2>
+    <p class="section-subtitle">— Cuando no se deciden, que decida el destino. Girá la ruleta —</p>
+  </div>
+  <div class="roulette-wrap">
+    <div class="wheel-stage">
+      <div class="wheel-pointer">▼</div>
+      <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" class="wheel-svg" id="wheelSvg">
+  <g id="wheelRotor" style="transform-origin:200px 200px">
+    <circle cx="200" cy="200" r="190" fill="#0a0a0a"/>
+    <path d="M200,200 L128.06,26.31 A188,188 0 0 1 271.94,26.31 Z" fill="#ff2d55" stroke="#0a0a0a" stroke-width="3"/><path d="M200,200 L271.94,26.31 A188,188 0 0 1 373.69,128.06 Z" fill="#ffd000" stroke="#0a0a0a" stroke-width="3"/><path d="M200,200 L373.69,128.06 A188,188 0 0 1 373.69,271.94 Z" fill="#00d4ff" stroke="#0a0a0a" stroke-width="3"/><path d="M200,200 L373.69,271.94 A188,188 0 0 1 271.94,373.69 Z" fill="#ff1493" stroke="#0a0a0a" stroke-width="3"/><path d="M200,200 L271.94,373.69 A188,188 0 0 1 128.06,373.69 Z" fill="#ff6f00" stroke="#0a0a0a" stroke-width="3"/><path d="M200,200 L128.06,373.69 A188,188 0 0 1 26.31,271.94 Z" fill="#2962ff" stroke="#0a0a0a" stroke-width="3"/><path d="M200,200 L26.31,271.94 A188,188 0 0 1 26.31,128.06 Z" fill="#ff2d55" stroke="#0a0a0a" stroke-width="3"/><path d="M200,200 L26.31,128.06 A188,188 0 0 1 128.06,26.31 Z" fill="#ffd000" stroke="#0a0a0a" stroke-width="3"/>
+    <g transform="translate(200.00,83.44) rotate(0.0)"><text x="0" y="-6" text-anchor="middle" font-family="'Bangers', cursive" font-size="15" fill="#0a0a0a">🎬</text><text x="0" y="12" text-anchor="middle" font-family="'Bangers', cursive" font-size="11" fill="#0a0a0a" letter-spacing="0.5">Maratón de pelis</text></g><g transform="translate(282.42,117.58) rotate(45.0)"><text x="0" y="-6" text-anchor="middle" font-family="'Bangers', cursive" font-size="15" fill="#0a0a0a">🍕</text><text x="0" y="12" text-anchor="middle" font-family="'Bangers', cursive" font-size="11" fill="#0a0a0a" letter-spacing="0.5">Salir a comer</text></g><g transform="translate(316.56,200.00) rotate(90.0)"><text x="0" y="-6" text-anchor="middle" font-family="'Bangers', cursive" font-size="15" fill="#0a0a0a">🧺</text><text x="0" y="12" text-anchor="middle" font-family="'Bangers', cursive" font-size="11" fill="#0a0a0a" letter-spacing="0.5">Picnic en el parque</text></g><g transform="translate(282.42,282.42) rotate(135.0)"><text x="0" y="-6" text-anchor="middle" font-family="'Bangers', cursive" font-size="15" fill="#0a0a0a">🍷</text><text x="0" y="12" text-anchor="middle" font-family="'Bangers', cursive" font-size="11" fill="#0a0a0a" letter-spacing="0.5">Noche de vino</text></g><g transform="translate(200.00,316.56) rotate(180.0)"><text x="0" y="-6" text-anchor="middle" font-family="'Bangers', cursive" font-size="15" fill="#0a0a0a">🧉</text><text x="0" y="12" text-anchor="middle" font-family="'Bangers', cursive" font-size="11" fill="#0a0a0a" letter-spacing="0.5">Mate y charla</text></g><g transform="translate(117.58,282.42) rotate(225.0)"><text x="0" y="-6" text-anchor="middle" font-family="'Bangers', cursive" font-size="15" fill="#0a0a0a">📺</text><text x="0" y="12" text-anchor="middle" font-family="'Bangers', cursive" font-size="11" fill="#0a0a0a" letter-spacing="0.5">Cama y series</text></g><g transform="translate(83.44,200.00) rotate(270.0)"><text x="0" y="-6" text-anchor="middle" font-family="'Bangers', cursive" font-size="15" fill="#0a0a0a">🚗</text><text x="0" y="12" text-anchor="middle" font-family="'Bangers', cursive" font-size="11" fill="#0a0a0a" letter-spacing="0.5">Aventura sorpresa</text></g><g transform="translate(117.58,117.58) rotate(315.0)"><text x="0" y="-6" text-anchor="middle" font-family="'Bangers', cursive" font-size="15" fill="#0a0a0a">💃</text><text x="0" y="12" text-anchor="middle" font-family="'Bangers', cursive" font-size="11" fill="#0a0a0a" letter-spacing="0.5">Salir a bailar</text></g>
+    <circle cx="200" cy="200" r="26" fill="#0a0a0a" stroke="#fff" stroke-width="3"/>
+    <circle cx="200" cy="200" r="10" fill="#fff200"/>
+  </g>
+</svg>
+    </div>
+    <button id="spinBtn" class="spin-btn" type="button">🎯 GIRAR</button>
+    <div class="wheel-result" id="wheelResult">Tocá GIRAR para que el universo elija el plan</div>
+  </div>
+</section>
+
 <!-- =================== NOSOTROS =================== -->
 <section class="us" id="us">
   <div class="section-header">
@@ -2673,8 +2876,23 @@
   </div>
 </section>
 
+<!-- LIGHTBOX galería -->
+<div class="lightbox" id="lightbox" aria-hidden="true">
+  <button class="lb-close" id="lbClose" aria-label="Cerrar">✕</button>
+  <button class="lb-nav lb-prev" id="lbPrev" aria-label="Anterior">❮</button>
+  <div class="lb-stage">
+    <img id="lbImg" src="" alt="Foto ampliada"/>
+    <div class="lb-cap" id="lbCap"></div>
+  </div>
+  <button class="lb-nav lb-next" id="lbNext" aria-label="Siguiente">❯</button>
+</div>
+
 <footer>
-  <p>HECHO CON <span class="heart">♥</span> PARA LA ÚNICA DAMA · © PROPIEDAD ABSOLUTA DE MI CORAZÓN</p>
+  <canvas id="fireworksCanvas"></canvas>
+  <div class="footer-content">
+    <button id="fireworksBtn" class="fw-btn" type="button">🎆 ¡FUEGOS ARTIFICIALES!</button>
+    <p>HECHO CON <span class="heart">♥</span> PARA LA ÚNICA DAMA · © PROPIEDAD ABSOLUTA DE MI CORAZÓN</p>
+  </div>
 </footer>
 
 <script>
@@ -3314,14 +3532,190 @@
     }
   });
 
-  /* ====== 16) Click en cualquier polaroide = pop sound ====== */
-  document.querySelectorAll('.polaroid').forEach(p => {
+  /* ====== 16) Galería con LIGHTBOX ====== */
+  const polaroidEls = Array.from(document.querySelectorAll('.polaroid'));
+  const gallery = polaroidEls.map(p => {
+    const img = p.querySelector('img');
+    const cap = p.querySelector('.cap');
+    return { src: img ? img.src : '', alt: img ? img.alt : '', cap: cap ? cap.textContent : '' };
+  });
+  const lightbox = document.getElementById('lightbox');
+  const lbImg = document.getElementById('lbImg');
+  const lbCap = document.getElementById('lbCap');
+  const lbClose = document.getElementById('lbClose');
+  const lbPrev = document.getElementById('lbPrev');
+  const lbNext = document.getElementById('lbNext');
+  let lbIndex = 0;
+
+  function openLightbox(i) {
+    lbIndex = (i + gallery.length) % gallery.length;
+    const item = gallery[lbIndex];
+    lbImg.src = item.src;
+    lbImg.alt = item.alt;
+    lbCap.textContent = item.cap;
+    lightbox.classList.add('open');
+    lightbox.setAttribute('aria-hidden', 'false');
+    sfx.pop();
+  }
+  function closeLightbox() {
+    lightbox.classList.remove('open');
+    lightbox.setAttribute('aria-hidden', 'true');
+  }
+  function lbStep(dir) {
+    lbImg.style.animation = 'none';
+    void lbImg.offsetWidth;
+    lbImg.style.animation = '';
+    openLightbox(lbIndex + dir);
+  }
+
+  polaroidEls.forEach((p, i) => {
     p.addEventListener('click', (e) => {
       sfx.pop();
       spawnConfetti(e.clientX, e.clientY, 8);
       incrementLove(1);
+      openLightbox(i);
     });
   });
+  if (lbClose) lbClose.addEventListener('click', closeLightbox);
+  if (lbPrev) lbPrev.addEventListener('click', () => lbStep(-1));
+  if (lbNext) lbNext.addEventListener('click', () => lbStep(1));
+  if (lightbox) lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeLightbox(); });
+  document.addEventListener('keydown', (e) => {
+    if (!lightbox.classList.contains('open')) return;
+    if (e.key === 'Escape') closeLightbox();
+    else if (e.key === 'ArrowLeft') lbStep(-1);
+    else if (e.key === 'ArrowRight') lbStep(1);
+  });
+
+  /* ====== 18) RULETA DE CITAS ====== */
+  const wheelPlans = ["🎬 Maratón de pelis","🍕 Salir a comer","🧺 Picnic en el parque","🍷 Noche de vino","🧉 Mate y charla","📺 Cama y series","🚗 Aventura sorpresa","💃 Salir a bailar"];
+  const wheelRotor = document.getElementById('wheelRotor');
+  const spinBtn = document.getElementById('spinBtn');
+  const wheelResult = document.getElementById('wheelResult');
+  let wheelAngle = 0;
+  let spinning = false;
+  const segCount = wheelPlans.length;
+  const segAngle = 360 / segCount;
+
+  if (spinBtn) {
+    spinBtn.addEventListener('click', () => {
+      if (spinning) return;
+      spinning = true;
+      spinBtn.disabled = true;
+      wheelResult.classList.remove('reveal');
+      wheelResult.textContent = 'Girando... 🌀';
+      sfx.zap();
+      const winner = Math.floor(Math.random() * segCount);
+      const turns = 4 + Math.floor(Math.random() * 3);
+      // queremos que el segmento "winner" quede arriba (bajo el puntero)
+      const targetAngle = turns * 360 - (winner * segAngle);
+      wheelAngle = targetAngle;
+      wheelRotor.style.transform = `rotate(${wheelAngle}deg)`;
+      setTimeout(() => {
+        spinning = false;
+        spinBtn.disabled = false;
+        wheelResult.textContent = '✨ ' + wheelPlans[winner] + ' ✨';
+        wheelResult.classList.add('reveal');
+        sfx.royal();
+        incrementLove(4);
+        const r = wheelResult.getBoundingClientRect();
+        spawnConfetti(r.left + r.width/2, r.top + r.height/2, 40);
+      }, 4600);
+    });
+  }
+
+  /* ====== 19) FUEGOS ARTIFICIALES (footer) ====== */
+  const fwCanvas = document.getElementById('fireworksCanvas');
+  const fwBtn = document.getElementById('fireworksBtn');
+  const footerEl = document.querySelector('footer');
+  let fwParticles = [];
+  let fwCtx = null;
+  let fwRAF = null;
+  const fwColors = ['#ff2d55', '#ffd000', '#00d4ff', '#ff1493', '#fff200', '#2962ff', '#ff6f00'];
+
+  function fwResize() {
+    if (!fwCanvas || !footerEl) return;
+    fwCanvas.width = footerEl.offsetWidth;
+    fwCanvas.height = footerEl.offsetHeight;
+  }
+
+  function launchFirework(x, y) {
+    const color = fwColors[Math.floor(Math.random() * fwColors.length)];
+    const count = 36 + Math.floor(Math.random() * 24);
+    for (let i = 0; i < count; i++) {
+      const ang = (Math.PI * 2 * i) / count;
+      const speed = 2 + Math.random() * 4;
+      fwParticles.push({
+        x, y,
+        vx: Math.cos(ang) * speed,
+        vy: Math.sin(ang) * speed,
+        life: 1,
+        color: Math.random() < 0.3 ? fwColors[Math.floor(Math.random()*fwColors.length)] : color,
+        size: 2 + Math.random() * 3
+      });
+    }
+  }
+
+  function fwTick() {
+    if (!fwCtx) return;
+    fwCtx.clearRect(0, 0, fwCanvas.width, fwCanvas.height);
+    fwParticles = fwParticles.filter(p => p.life > 0);
+    fwParticles.forEach(p => {
+      p.x += p.vx;
+      p.y += p.vy;
+      p.vy += 0.05;
+      p.vx *= 0.99;
+      p.life -= 0.012;
+      fwCtx.globalAlpha = Math.max(0, p.life);
+      fwCtx.fillStyle = p.color;
+      fwCtx.beginPath();
+      fwCtx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+      fwCtx.fill();
+    });
+    fwCtx.globalAlpha = 1;
+    if (fwParticles.length > 0) {
+      fwRAF = requestAnimationFrame(fwTick);
+    } else {
+      fwRAF = null;
+    }
+  }
+
+  function fireShow(big) {
+    if (!fwCanvas) return;
+    if (!fwCtx) fwCtx = fwCanvas.getContext('2d');
+    fwResize();
+    const n = big ? 6 : 3;
+    let delay = 0;
+    for (let i = 0; i < n; i++) {
+      setTimeout(() => {
+        launchFirework(
+          fwCanvas.width * (0.15 + Math.random() * 0.7),
+          fwCanvas.height * (0.2 + Math.random() * 0.5)
+        );
+        sfx.pop();
+        if (!fwRAF) fwTick();
+      }, delay);
+      delay += 280 + Math.random() * 250;
+    }
+  }
+
+  window.addEventListener('resize', fwResize);
+  if (fwBtn) fwBtn.addEventListener('click', () => { fireShow(true); sfx.big(); });
+
+  // Auto-lanzar cuando el footer entra en vista (una vez)
+  if (footerEl && 'IntersectionObserver' in window && !reduceMotion) {
+    let fired = false;
+    const fwObs = new IntersectionObserver((entries) => {
+      entries.forEach(en => {
+        if (en.isIntersecting && !fired) {
+          fired = true;
+          fireShow(true);
+          showAchievement('🎆 ¡LLEGASTE AL FINAL!', 'Gracias por recorrer todo');
+        }
+      });
+    }, { threshold: 0.4 });
+    fwObs.observe(footerEl);
+  }
 
   /* ====== 17) Click en el retrato hero = pulso pop ====== */
   portrait.addEventListener('click', () => {
